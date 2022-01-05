@@ -25,24 +25,23 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano, expliacion;
-    private JButton lanzar,ayuda,salir, creditos;
-    private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje, panelExplicacion;
+    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano, explicacion;
+    private JButton lanzar,ayuda,salir, creditos, botonExplicacion;
+    private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private ModelDados modelDados;
     /**
-     * Constructor of GUI class
+     * Constructor de la clase GUI
      */
     public GUI(){
+
         initGUI();
 
-        //Default JFrame configuration
+        //Configuracion por defecto del JFrame
         this.setTitle("Geek Out Masters");
-        //this.setSize(200,100);
         this.setUndecorated(true);
-        //this.setBackground(new Color(255,255,255,0));
         this.pack();
         this.setResizable(true);
         this.setVisible(true);
@@ -51,17 +50,17 @@ public class GUI extends JFrame{
     }
 
     /**
-     * This method is used to set up the default JComponent Configuration,
-     * create Listener and control Objects used for the GUI class
+     * Este método se utiliza para configurar la configuración predeterminada de JComponent,
+     * crear objetos de escucha y control utilizados para la clase GUI
      */
     private void initGUI() {
-        //Set up JFrame Container's Layout
+        //Configurar el diseño del contenedor JFrame
         this.getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
-        //Create Listener Object and Control Object
+        //Crear objeto de escucha y objeto de control
         escucha = new Escucha();
         modelDados = new ModelDados();
-        //Set up JComponents
+        //configurar JComponents
         headerProject = new Header("Geek Out Masters", Color.BLACK);
 
         constraints.gridx=3;
@@ -86,29 +85,38 @@ public class GUI extends JFrame{
         creditos = new JButton(" Creditos ");
         creditos.addActionListener(escucha);
         creditos.setBackground(Color.yellow);
-        constraints.gridx=0;
+        constraints.gridx=1;
         constraints.gridy=4;
         constraints.gridwidth=1;
         constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_START;
+        constraints.anchor=GridBagConstraints.CENTER;
         this.add(creditos,constraints);
 
         //Boton de salida
         salir = new JButton("Salir");
         salir.addActionListener(escucha);
         salir.setBackground(Color.red);
-        constraints.gridx=6;
+        constraints.gridx=8;
         constraints.gridy=1;
         constraints.gridwidth=1;
         constraints.fill=GridBagConstraints.NONE;
         constraints.anchor=GridBagConstraints.LINE_END;
         this.add(salir,constraints);
 
+        //Boton de Expliacion
+        botonExplicacion = new JButton("Explicaion de dados");
+        botonExplicacion.addActionListener(escucha);
+        botonExplicacion.setBackground(Color.white);
+        constraints.gridx=8;
+        constraints.gridy=4;
+        constraints.gridwidth=1;
+        constraints.fill=GridBagConstraints.NONE;
+        constraints.anchor=GridBagConstraints.LINE_END;
+        this.add(botonExplicacion,constraints);
+
         //Imagen
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
         mano = new JLabel(imageMano);
-        imageExplicacion = new ImageIcon(getClass().getResource("/utilidad/explicacion.png"));
-        expliacion = new JLabel(imageExplicacion);
 
         //Panel dados activos
 
@@ -156,21 +164,16 @@ public class GUI extends JFrame{
 
 
         //Panel puntaje
+        panelPuntaje = new JPanel();
+        panelPuntaje.setPreferredSize(new Dimension(200,225));
+        panelPuntaje.setBorder(BorderFactory.createTitledBorder("Puntaje"));
 
-        //Panel explicacion
-
-        panelExplicacion = new JPanel();
-        panelExplicacion.setPreferredSize(new Dimension(200,225));
-        panelExplicacion.setBorder(BorderFactory.createTitledBorder("´¿Que significa cada cara?"));
-        panelExplicacion.add(expliacion);
-
-
-        constraints.gridx=3;
-        constraints.gridy=4;
+        constraints.gridx=0;
+        constraints.gridy=3;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
-        add(panelExplicacion,constraints);
+        add(panelPuntaje,constraints);
 
         //Boton lanzar
 
@@ -196,10 +199,6 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.NONE;
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
-
-
-
-
 
     }
 
@@ -232,7 +231,12 @@ public class GUI extends JFrame{
                     if (e.getSource()==ayuda){
                         JOptionPane.showMessageDialog(null,AYUDA);
                     }else{
-                        System.exit(0);
+                        if (e.getSource()==botonExplicacion){
+
+                        }else{
+                            System.exit(0);
+                        }
+
                     }
                 }
             }

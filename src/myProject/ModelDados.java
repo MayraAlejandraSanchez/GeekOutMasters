@@ -13,7 +13,7 @@ public class ModelDados {
     private int[] acciones;
 
     /**
-     * Class Constructor
+     * Clase Constructor
      */
     public ModelDados() {
         dado1 = new Dados();
