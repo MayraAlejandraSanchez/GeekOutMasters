@@ -25,10 +25,10 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano;
+    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano, expliacion;
     private JButton lanzar,ayuda,salir, creditos;
-    private JPanel panelDados;
-    private ImageIcon imageDado;
+    private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje, panelExplicacion;
+    private ImageIcon imageMano, imageExplicacion;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private ModelDados modelDados;
@@ -73,7 +73,7 @@ public class GUI extends JFrame{
         //Boton de ayuda
         ayuda = new JButton(" help ");
         ayuda.addActionListener(escucha);
-        ayuda.setBackground(Color.cyan);
+        ayuda.setBackground(Color.green);
         constraints.gridx=0;
         constraints.gridy=1;
         constraints.gridwidth=2;
@@ -105,20 +105,74 @@ public class GUI extends JFrame{
         this.add(salir,constraints);
 
         //Imagen
-        imageDado = new ImageIcon(getClass().getResource("/recursos/mano apretada.png"));
-        mano = new JLabel(imageDado);
+        imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
+        mano = new JLabel(imageMano);
+        imageExplicacion = new ImageIcon(getClass().getResource("/utilidad/explicacion.png"));
+        expliacion = new JLabel(imageExplicacion);
 
-        panelDados = new JPanel();
-        panelDados.setPreferredSize(new Dimension(300,180));
-        panelDados.setBorder(BorderFactory.createTitledBorder("Tira los dados"));
-        panelDados.add(mano);
+        //Panel dados activos
+
+        panelDadosActivos = new JPanel();
+        panelDadosActivos.setPreferredSize(new Dimension(300,180));
+        panelDadosActivos.setBorder(BorderFactory.createTitledBorder("Tira los dados"));
+        panelDadosActivos.add(mano);
 
         constraints.gridx=3;
         constraints.gridy=2;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
-        add(panelDados,constraints);
+        add(panelDadosActivos,constraints);
+
+        //Panel dados utilizados
+
+        panelDadosUtilizados = new JPanel();
+        panelDadosUtilizados.setPreferredSize(new Dimension(200,180));
+        panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados utilizados"));
+        panelDadosUtilizados.setBackground(Color.cyan);
+
+
+        constraints.gridx=0;
+        constraints.gridy=2;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(panelDadosUtilizados,constraints);
+
+        //Panel dados inactivos
+
+        panelDadosInactivos = new JPanel();
+        panelDadosInactivos.setPreferredSize(new Dimension(200,180));
+        panelDadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
+        panelDadosInactivos.setBackground(Color.CYAN);
+
+
+        constraints.gridx=6;
+        constraints.gridy=2;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(panelDadosInactivos,constraints);
+
+
+        //Panel puntaje
+
+        //Panel explicacion
+
+        panelExplicacion = new JPanel();
+        panelExplicacion.setPreferredSize(new Dimension(200,225));
+        panelExplicacion.setBorder(BorderFactory.createTitledBorder("´¿Que significa cada cara?"));
+        panelExplicacion.add(expliacion);
+
+
+        constraints.gridx=3;
+        constraints.gridy=4;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(panelExplicacion,constraints);
+
+        //Boton lanzar
 
         lanzar = new JButton("Tirar los dados");
         lanzar.addActionListener(escucha);
@@ -137,7 +191,7 @@ public class GUI extends JFrame{
         //mensajesSalida.setBackground(new Color(255,255,255,0));
         mensajesSalida.setEditable(false);
         constraints.gridx=3;
-        constraints.gridy=4;
+        constraints.gridy=5;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.NONE;
         constraints.anchor=GridBagConstraints.CENTER;
