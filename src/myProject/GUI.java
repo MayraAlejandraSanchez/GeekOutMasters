@@ -25,7 +25,7 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano, explicacion;
+    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano;
     private JButton lanzar,ayuda,salir, creditos, botonExplicacion;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion;
@@ -232,7 +232,8 @@ public class GUI extends JFrame{
                         JOptionPane.showMessageDialog(null,AYUDA);
                     }else{
                         if (e.getSource()==botonExplicacion){
-
+                            imageExplicacion = new ImageIcon(getClass().getResource("/utilidad/explicacion.png"));
+                            JOptionPane.showMessageDialog(null,"","Explicacion de cada cara del dado", JOptionPane.PLAIN_MESSAGE, imageExplicacion);
                         }else{
                             System.exit(0);
                         }
