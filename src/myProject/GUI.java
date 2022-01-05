@@ -60,7 +60,9 @@ public class GUI extends JFrame{
         //Crear objeto de escucha y objeto de control
         escucha = new Escucha();
         modelDados = new ModelDados();
-        //configurar JComponents
+        //Configurar JComponents
+
+        //Titulo
         headerProject = new Header("Geek Out Masters", Color.BLACK);
 
         constraints.gridx=3;
@@ -103,15 +105,15 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.LINE_END;
         this.add(salir,constraints);
 
-        //Boton de Expliacion
-        botonExplicacion = new JButton("Explicaion de dados");
+        //Boton de Explicacion
+        botonExplicacion = new JButton("Explicacion dados");
         botonExplicacion.addActionListener(escucha);
-        botonExplicacion.setBackground(Color.white);
-        constraints.gridx=8;
-        constraints.gridy=4;
-        constraints.gridwidth=1;
+        botonExplicacion.setBackground(Color.ORANGE);
+        constraints.gridx=4;
+        constraints.gridy=2;
+        constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_END;
+        constraints.anchor=GridBagConstraints.CENTER;
         this.add(botonExplicacion,constraints);
 
         //Imagen
@@ -121,12 +123,12 @@ public class GUI extends JFrame{
         //Panel dados activos
 
         panelDadosActivos = new JPanel();
-        panelDadosActivos.setPreferredSize(new Dimension(300,180));
+        panelDadosActivos.setPreferredSize(new Dimension(300,300));
         panelDadosActivos.setBorder(BorderFactory.createTitledBorder("Tira los dados"));
         panelDadosActivos.add(mano);
 
         constraints.gridx=3;
-        constraints.gridy=2;
+        constraints.gridy=3;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
@@ -138,7 +140,6 @@ public class GUI extends JFrame{
         panelDadosUtilizados.setPreferredSize(new Dimension(200,180));
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados utilizados"));
         panelDadosUtilizados.setBackground(Color.cyan);
-
 
         constraints.gridx=0;
         constraints.gridy=2;
@@ -181,7 +182,7 @@ public class GUI extends JFrame{
         lanzar.addActionListener(escucha);
         lanzar.setBackground(Color.pink);
 
-        constraints.gridx=3;
+        constraints.gridx=7;
         constraints.gridy=3;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.NONE;
@@ -191,7 +192,6 @@ public class GUI extends JFrame{
         mensajesSalida= new JTextArea(2,28);
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
         mensajesSalida.setBorder(BorderFactory.createTitledBorder("Atención: "));
-        //mensajesSalida.setBackground(new Color(255,255,255,0));
         mensajesSalida.setEditable(false);
         constraints.gridx=3;
         constraints.gridy=5;
