@@ -24,7 +24,9 @@ public class Dados {
      * -> Corazon:permite tomar un dado de la sección de dados inactivos y lanzarlo para que sea un
      * nuevo dado activo.
      */
-    private int acciones;
+
+    private int acciones, dados;
+
     /**
      * Metodo que genera el numero aleatorio entre 1 y 6 para las caras del dado
      * @return valor de la carta

@@ -25,10 +25,10 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10, mano;
-    private JButton lanzar,ayuda,salir, creditos, botonExplicacion;
+    private JLabel mano;
+    private JButton lanzar,ayuda,salir, creditos, botonExplicacion, dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10 ;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
-    private ImageIcon imageMano, imageExplicacion;
+    private ImageIcon imageMano, imageExplicacion, imageDado;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private ModelDados modelDados;
@@ -71,7 +71,10 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.HORIZONTAL;
         this.add(headerProject,constraints);
 
-        //Boton de ayuda
+        /**
+         * Creacion de boton "Ayuda"
+         */
+
         ayuda = new JButton(" help ");
         ayuda.addActionListener(escucha);
         ayuda.setBackground(Color.green);
@@ -82,7 +85,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.LINE_START;
         this.add(ayuda,constraints);
 
-        //Boton creditos
+        /**
+         * Creacion de boton "Creditos"
+         */
 
         creditos = new JButton(" Creditos ");
         creditos.addActionListener(escucha);
@@ -94,7 +99,10 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         this.add(creditos,constraints);
 
-        //Boton de salida
+        /**
+         * Creacion de boton "Salir"
+         */
+
         salir = new JButton("Salir");
         salir.addActionListener(escucha);
         salir.setBackground(Color.red);
@@ -105,7 +113,10 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.LINE_END;
         this.add(salir,constraints);
 
-        //Boton de Explicacion
+        /**
+         * Creacion de boton "Explicacion dados"
+         */
+
         botonExplicacion = new JButton("Explicacion dados");
         botonExplicacion.addActionListener(escucha);
         botonExplicacion.setBackground(Color.ORANGE);
@@ -120,7 +131,9 @@ public class GUI extends JFrame{
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
         mano = new JLabel(imageMano);
 
-        //Panel dados activos
+        /**
+         * Creacion de dados activos
+         */
 
         panelDadosActivos = new JPanel();
         panelDadosActivos.setPreferredSize(new Dimension(300,300));
@@ -134,7 +147,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelDadosActivos,constraints);
 
-        //Panel dados utilizados
+        /**
+         * Creacion de panel dados utilizados
+         */
 
         panelDadosUtilizados = new JPanel();
         panelDadosUtilizados.setPreferredSize(new Dimension(200,180));
@@ -148,7 +163,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelDadosUtilizados,constraints);
 
-        //Panel dados inactivos
+        /**
+         * Creacion de panel dados inactivos
+         */
 
         panelDadosInactivos = new JPanel();
         panelDadosInactivos.setPreferredSize(new Dimension(200,180));
@@ -164,7 +181,10 @@ public class GUI extends JFrame{
         add(panelDadosInactivos,constraints);
 
 
-        //Panel puntaje
+        /**
+         * Creacion de panel puntaje
+         */
+
         panelPuntaje = new JPanel();
         panelPuntaje.setPreferredSize(new Dimension(200,225));
         panelPuntaje.setBorder(BorderFactory.createTitledBorder("Puntaje"));
@@ -176,7 +196,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelPuntaje,constraints);
 
-        //Boton lanzar
+        /**
+         * Creacion de boton "tirar dados
+         */
 
         lanzar = new JButton("Tirar los dados");
         lanzar.addActionListener(escucha);
@@ -200,6 +222,89 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
 
+        /**
+         * Creacion de botones con imagen del dado
+         */
+        //dado1
+        dado1 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado1.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado1.setBounds(3,3,200,200);
+        dado1.setVisible(false);
+        panelDadosActivos.add(dado1);
+
+        //dado2
+        dado2 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado2.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado2.setBounds(3,4,200,200);
+        dado2.setVisible(false);
+        panelDadosActivos.add(dado2);
+
+        //dado3
+        dado3 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado3.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado3.setBounds(3,4,200,200);
+        dado3.setVisible(false);
+        panelDadosActivos.add(dado3);
+
+        //dado4
+        dado4 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado4.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado4.setBounds(3,4,200,200);
+        dado4.setVisible(false);
+        panelDadosActivos.add(dado4);
+
+        //dado5
+        dado5 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado5.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado5.setBounds(3,4,200,200);
+        dado5.setVisible(false);
+        panelDadosActivos.add(dado5);
+
+        //dado6
+        dado6 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado6.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado6.setBounds(3,4,200,200);
+        dado6.setVisible(false);
+        panelDadosActivos.add(dado6);
+
+        //dado7
+        dado7 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado7.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado7.setBounds(3,4,200,200);
+        dado7.setVisible(false);
+        panelDadosActivos.add(dado7);
+
+        //dado8
+        dado8 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado8.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado8.setBounds(3,4,200,200);
+        dado8.setVisible(false);
+        panelDadosInactivos.add(dado8);
+
+        //dado9
+        dado9 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado9.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado9.setBounds(3,4,200,200);
+        dado9.setVisible(false);
+        panelDadosInactivos.add(dado9);
+
+        //dado10
+        dado10 = new JButton();
+        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+        //dado10.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+        //dado10.setBounds(3,4,200,200);
+        dado10.setVisible(false);
+        panelDadosInactivos.add(dado10);
+        
     }
 
     /**
