@@ -207,8 +207,10 @@ public class ModelDados {
 
     // estado del juego
     public int getFlag(){
-        if(dados.size() == 1){
-            flag = 1;
+        if(ronda < 5){
+            flag = 1; // continua el juego
+        }else{
+            flag = 2; // finaliza el juego
         }
         return flag;
     }
