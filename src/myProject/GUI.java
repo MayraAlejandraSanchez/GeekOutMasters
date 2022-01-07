@@ -304,7 +304,7 @@ public class GUI extends JFrame{
         //dado10.setBounds(3,4,200,200);
         dado10.setVisible(false);
         panelDadosInactivos.add(dado10);
-        
+
     }
 
     /**
