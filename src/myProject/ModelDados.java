@@ -9,16 +9,16 @@ import java.util.Random;
  * @version 1.0.0 fecha 3/1/2022
  */
 public class ModelDados {
-    Dados dado1 = new Dados(1);
-    Dados dado2 = new Dados(2);
-    Dados dado3 = new Dados(3);
-    Dados dado4 = new Dados(4);
-    Dados dado5 = new Dados(5);
-    Dados dado6 = new Dados(6);
-    Dados dado7 = new Dados(7);
-    Dados dado8 = new Dados(8);
-    Dados dado9 = new Dados(9);
-    Dados dado10 = new Dados(10);
+    Dados dado1 = new Dados(1, "dado1");
+    Dados dado2 = new Dados(2, "dado2");
+    Dados dado3 = new Dados(3, "dado3");
+    Dados dado4 = new Dados(4, "dado4");
+    Dados dado5 = new Dados(5, "dado5");
+    Dados dado6 = new Dados(6, "dado6");
+    Dados dado7 = new Dados(7, "dado7");
+    Dados dado8 = new Dados(8, "dado8");
+    Dados dado9 = new Dados(9, "dado9");
+    Dados dado10 = new Dados(10,"dado10");
 
     private int dadoRandom;
     private ArrayList<Dados> dados;
@@ -89,9 +89,20 @@ public class ModelDados {
         flag = 1;
     }
 
-    public void dadosUtilizados(String accion){
+    public String getAccionDado(String nombreDado){
+        String accionDado = null;
+        for(int dado=0; dado < dados.size(); dado++) {
+            if (nombreDado == dados.get(dado).getNombreDado()) {
+                accionDado = dados.get(dado).getAccion();
+                break;
+            }
+        }
+        return accionDado;
+    }
+
+    public void dadosUtilizados(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(accion == dados.get(dado).getAccion()){
+            if(nombreDado == dados.get(dado).getNombreDado()){
                 dadosUtilizados.add(dados.get(dado));
                 dados.remove(dado);
                 break;
@@ -100,35 +111,35 @@ public class ModelDados {
     }
 
     // Busca el dado seleccionado por su numero y lo tira nuevamente
-    public void accionMepple(String accion){
+    public void accionMepple(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(accion == dados.get(dado).getAccion()){
+            if(nombreDado == dados.get(dado).getNombreDado()){
                 dados.get(dado).setNumAccion();
                 break;
             }
         }
     }
 
-    public void accionSuperHeroe(String accion){
+    public void accionSuperHeroe(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(accion == dados.get(dado).getAccion()){
-                if(accion == "mepple"){
+            if(nombreDado == dados.get(dado).getNombreDado()){
+                if(dados.get(dado).getAccion() == "mepple"){
                     dados.get(dado).setNumAccionNoAleatorio(5);
                     break;
                 }else{
-                    if(accion == "cohete"){
+                    if(dados.get(dado).getAccion() == "cohete"){
                         dados.get(dado).setNumAccionNoAleatorio(1);
                         break;
                     }else{
-                        if(accion == "superheroe"){
+                        if(dados.get(dado).getAccion() == "superheroe"){
                             dados.get(dado).setNumAccionNoAleatorio(3);
                             break;
                         }else{
-                            if(accion == "dragon"){
+                            if(dados.get(dado).getAccion() == "dragon"){
                                 dados.get(dado).setNumAccionNoAleatorio(2);
                                 break;
                             }else{
-                                if(accion == "corazon"){
+                                if(dados.get(dado).getAccion() == "corazon"){
                                     dados.get(dado).setNumAccionNoAleatorio(6);
                                     break;
                                 }else{
@@ -147,9 +158,9 @@ public class ModelDados {
         puntaje = 0;
     }
 
-    public void accionCorazon(String accion){
+    public void accionCorazon(String nombreDado){
         for(int dado=0; dado < dadosInactivos.size(); dado++){
-            if(accion == dadosInactivos.get(dado).getAccion()){
+            if(nombreDado == dadosInactivos.get(dado).getNombreDado()){
                 dados.add(dadosInactivos.get(dado));
                 dados.get(dados.indexOf(dadosInactivos.get(dado))).getNumAccion();
                 dadosInactivos.remove(dado);
@@ -158,9 +169,9 @@ public class ModelDados {
         }
     }
 
-    public void accionCohete(String accion){
+    public void accionCohete(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(accion == dados.get(dado).getAccion()){
+            if(nombreDado == dados.get(dado).getNombreDado()){
                 dadosInactivos.add(dados.get(dado));
                 dados.remove(dado);
                 break;
@@ -168,9 +179,9 @@ public class ModelDados {
         }
     }
 
-    public void accion42(String accion){
+    public void accion42(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(accion == dados.get(dado).getAccion()){
+            if(nombreDado == dados.get(dado).getNombreDado()){
                 switch(ronda){
                     case 1:
                         puntaje = puntaje + 1;

@@ -12,10 +12,12 @@ public class Dados {
     private int numero;
     private int numeroAccion;
     private String accion;
+    private String nombreDado;
 
-    public Dados(int _numero){
+    public Dados(int _numero, String _nombre){
         numero = _numero;
         numeroAccion = numeroAccion;
+        nombreDado = _nombre;
     }
 
     public void setNumAccion(){
@@ -41,5 +43,9 @@ public class Dados {
 
     public int getNumero(){
         return numero;
+    }
+
+    public String getNombreDado(){
+        return nombreDado;
     }
 }
