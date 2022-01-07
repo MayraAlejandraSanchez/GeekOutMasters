@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class GUI extends JFrame{
 
@@ -222,88 +224,6 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
 
-        /**
-         * Creacion de botones con imagen del dado
-         */
-        //dado1
-        dado1 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado1.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado1.setBounds(3,3,200,200);
-        dado1.setVisible(false);
-        panelDadosActivos.add(dado1);
-
-        //dado2
-        dado2 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado2.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado2.setBounds(3,4,200,200);
-        dado2.setVisible(false);
-        panelDadosActivos.add(dado2);
-
-        //dado3
-        dado3 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado3.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado3.setBounds(3,4,200,200);
-        dado3.setVisible(false);
-        panelDadosActivos.add(dado3);
-
-        //dado4
-        dado4 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado4.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado4.setBounds(3,4,200,200);
-        dado4.setVisible(false);
-        panelDadosActivos.add(dado4);
-
-        //dado5
-        dado5 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado5.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado5.setBounds(3,4,200,200);
-        dado5.setVisible(false);
-        panelDadosActivos.add(dado5);
-
-        //dado6
-        dado6 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado6.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado6.setBounds(3,4,200,200);
-        dado6.setVisible(false);
-        panelDadosActivos.add(dado6);
-
-        //dado7
-        dado7 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado7.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado7.setBounds(3,4,200,200);
-        dado7.setVisible(false);
-        panelDadosActivos.add(dado7);
-
-        //dado8
-        dado8 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado8.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado8.setBounds(3,4,200,200);
-        dado8.setVisible(false);
-        panelDadosInactivos.add(dado8);
-
-        //dado9
-        dado9 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado9.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado9.setBounds(3,4,200,200);
-        dado9.setVisible(false);
-        panelDadosInactivos.add(dado9);
-
-        //dado10
-        dado10 = new JButton();
-        //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
-        //dado10.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
-        //dado10.setBounds(3,4,200,200);
-        dado10.setVisible(false);
-        panelDadosInactivos.add(dado10);
 
     }
 
@@ -321,12 +241,83 @@ public class GUI extends JFrame{
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha implements ActionListener {
+    private class Escucha implements ActionListener, MouseListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
             if(e.getSource()==lanzar){
+                /**
+                * Quita la mano que esta al inicio del juego
+                */
+                mano.setVisible(false);
+                /**
+                 * Aparecen y se crean los dados
+                 */
+
+                //dado1
+                dado1 = new JButton();
+                //imageDado = new ImageIcon(getClass().getResource("/recursos/" + ".png"));
+                //dado1.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(dado1.getWidth(),dado1.getHeight(),Image.SCALE_SMOOTH)));
+                dado1.addMouseListener(escucha);
+                panelDadosActivos.add(dado1);
+
+                //dado2
+                dado2 = new JButton();
+                dado2.addMouseListener(escucha);
+                panelDadosActivos.add(dado2);
+
+                //dado3
+                dado3 = new JButton();
+                dado3.addMouseListener(escucha);
+                panelDadosActivos.add(dado3);
+
+                //dado4
+                dado4 = new JButton();
+                dado4.addMouseListener(escucha);
+                panelDadosActivos.add(dado4);
+
+                //dado5
+                dado5 = new JButton();
+                dado5.addMouseListener(escucha);
+                panelDadosActivos.add(dado5);
+
+                //dado6
+                dado6 = new JButton();
+                dado6.addMouseListener(escucha);
+                panelDadosActivos.add(dado6);
+
+                //dado7
+                dado7 = new JButton();
+                dado7.addMouseListener(escucha);
+                panelDadosActivos.add(dado7);
+
+                //dado8
+                dado8 = new JButton();
+                dado8.addMouseListener(escucha);
+                panelDadosInactivos.add(dado8);
+
+                //dado9
+                dado9 = new JButton();
+                dado9.addMouseListener(escucha);
+                panelDadosInactivos.add(dado9);
+
+                //dado10
+                dado10 = new JButton();
+                dado10.addMouseListener(escucha);
+                panelDadosInactivos.add(dado10);
+
+                modelDados.asignacionAcciones();
+
+
+
+
+
+
+
+
+
+
 
 
             }else{
@@ -346,6 +337,44 @@ public class GUI extends JFrame{
                     }
                 }
             }
+
+        }
+
+        /**
+         * Mouse clicked para los dados
+         * @param e
+         */
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            /**
+             * Dados
+             */
+            if (e.getSource()==dado1 & (e.getClickCount()==1)){
+
+            }else{
+
+            }
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
 
         }
     }
