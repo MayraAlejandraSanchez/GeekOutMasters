@@ -8,6 +8,7 @@ package myProject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -34,6 +35,7 @@ public class GUI extends JFrame{
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private ModelDados modelDados;
+    private ArrayList<JButton> botones ;
     /**
      * Constructor de la clase GUI
      */
@@ -97,7 +99,7 @@ public class GUI extends JFrame{
         constraints.gridx=1;
         constraints.gridy=4;
         constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.NONE;
+        constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
         this.add(creditos,constraints);
 
@@ -267,6 +269,7 @@ public class GUI extends JFrame{
                 dado1.setBackground(Color.white);
                 dado1.setBorder(null);
                 dado1.addMouseListener(escucha);
+                dado1.setName("dado1");
                 panelDadosActivos.add(dado1);
 
                 //dado2
@@ -276,6 +279,7 @@ public class GUI extends JFrame{
                 dado2.setBackground(Color.white);
                 dado2.setBorder(null);
                 dado2.addMouseListener(escucha);
+                dado2.setName("dado2");
                 panelDadosActivos.add(dado2);
 
                 //dado3
@@ -285,6 +289,7 @@ public class GUI extends JFrame{
                 dado3.setBackground(Color.white);
                 dado3.setBorder(null);
                 dado3.addMouseListener(escucha);
+                dado3.setName("dado3");
                 panelDadosActivos.add(dado3);
 
                 //dado4
@@ -294,6 +299,7 @@ public class GUI extends JFrame{
                 dado4.setBackground(Color.white);
                 dado4.setBorder(null);
                 dado4.addMouseListener(escucha);
+                dado4.setName("dado4");
                 panelDadosActivos.add(dado4);
 
                 //dado5
@@ -303,6 +309,7 @@ public class GUI extends JFrame{
                 dado5.setBackground(Color.white);
                 dado5.setBorder(null);
                 dado5.addMouseListener(escucha);
+                dado5.setName("dado5");
                 panelDadosActivos.add(dado5);
 
                 //dado6
@@ -312,6 +319,7 @@ public class GUI extends JFrame{
                 dado6.setBackground(Color.white);
                 dado6.setBorder(null);
                 dado6.addMouseListener(escucha);
+                dado6.setName("dado6");
                 panelDadosActivos.add(dado6);
 
                 //dado7
@@ -321,6 +329,7 @@ public class GUI extends JFrame{
                 dado7.setBackground(Color.white);
                 dado7.setBorder(null);
                 dado7.addMouseListener(escucha);
+                dado7.setName("dado7");
                 panelDadosActivos.add(dado7);
 
                 //dado8
@@ -330,6 +339,7 @@ public class GUI extends JFrame{
                 dado8.setBackground(Color.cyan);
                 dado8.setBorder(null);
                 dado8.addMouseListener(escucha);
+                dado8.setName("dado8");
                 panelDadosInactivos.add(dado8);
 
                 //dado9
@@ -339,6 +349,7 @@ public class GUI extends JFrame{
                 dado9.setBackground(Color.cyan);
                 dado9.setBorder(null);
                 dado9.addMouseListener(escucha);
+                dado9.setName("dado9");
                 panelDadosInactivos.add(dado9);
 
                 //dado10
@@ -348,8 +359,8 @@ public class GUI extends JFrame{
                 dado10.setBackground(Color.cyan);
                 dado10.setBorder(null);
                 dado10.addMouseListener(escucha);
+                dado10.setName("dado10");
                 panelDadosInactivos.add(dado10);
-
 
             }else{
                 if(e.getSource()==creditos){
@@ -379,20 +390,93 @@ public class GUI extends JFrame{
         @Override
         public void mouseClicked(MouseEvent e) {
             /**
-             * Dados
+             * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
              */
 
+            ArrayList<JButton> botones = new ArrayList<>();
 
+            botones.add(dado1);
+            botones.add(dado2);
+            botones.add(dado3);
+            botones.add(dado4);
+            botones.add(dado5);
+            botones.add(dado6);
+            botones.add(dado7);
+            botones.add(dado8);
+            botones.add(dado9);
+            botones.add(dado10);
 
-            if (e.getSource()==dado1 & (e.getClickCount()==1)){
+            for(int dado=1; dado < 11; dado++){
+                if(e.getSource() == botones.get(dado)){
+                    modeldados.dadosUtilizados(botones.get(dado).getName());
+                    if (modeldados.getAccionDado(botones.get(dado).getName()) == "mepple"){
+                        modeldados.accionMepple(botones.get(dado).getName());
+                        break;
+                    }else{
+                        if (modeldados.getAccionDado(botones.get(dado).getName()) == "superheroe"){
+                            modeldados.accionSuperHeroe(botones.get(dado).getName());
+                        }else{
+                            if (modeldados.getAccionDado(botones.get(dado).getName()) == "dragon"){
+                                modeldados.accionDragon();
+                            }else{
+                                if (modeldados.getAccionDado(botones.get(dado).getName()) == "corazon"){
+                                    modeldados.accionCorazon(botones.get(dado).getName());
+                                }else{
+                                    if (modeldados.getAccionDado(botones.get(dado).getName()) == "cohete"){
+                                        modeldados.accionCohete(botones.get(dado).getName());
+                                    }else{
+                                        if (modeldados.getAccionDado(botones.get(dado).getName())=="42"){
+                                            modeldados.accion42(botones.get(dado).getName());
+                                        }else{
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
+                    }
 
-
-            }else{
-
+                }
             }
 
+
+/*
+if (e.getSource()==dado1 & e.getClickCount()==1){
+                modeldados.dadosUtilizados("dado1");
+                if (modeldados.getAccionDado("dado1") == "mepple"){
+                    modeldados.accionMepple("dado1");
+                }else{
+                    if (modeldados.getAccionDado("dado1") == "superheroe"){
+                        modeldados.accionSuperHeroe("dado1");
+                    }else{
+                        if (modeldados.getAccionDado("dado1") == "dragon"){
+                            modeldados.accionDragon();
+                        }else{
+                            if (modeldados.getAccionDado("dado1") == "corazon"){
+                                modeldados.accionCorazon("dado1");
+                            }else{
+                                if (modeldados.getAccionDado("dado1") == "cohete"){
+                                    modeldados.accionCohete("dado1");
+                                }else{
+                                    if (modeldados.getAccionDado("dado1") == "42"){
+                                        modeldados.accion42("dado1");
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }else{
+/**
+ * dado2
+ */
         }
+
+
+
+
 
         @Override
         public void mousePressed(MouseEvent e) {
