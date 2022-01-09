@@ -9,15 +9,11 @@ import java.util.Random;
  * @version 1.0.0 fecha 3/1/2022
  */
 public class Dados {
-    private int numero;
     private int numeroAccion;
     private String accion;
     private String nombreDado;
 
-    public Dados(int _numero, String _nombre){
-        numero = _numero;
-        numeroAccion = numeroAccion;
-        nombreDado = _nombre;
+    public Dados(){
     }
 
     public void setNumAccion(){
@@ -33,16 +29,16 @@ public class Dados {
         accion = _accion;
     }
 
+    public void setNombreDado(String _nombre){
+        nombreDado = _nombre;
+    }
+
     public int getNumAccion(){
         return numeroAccion;
     }
 
     public String getAccion(){
         return accion;
-    }
-
-    public int getNumero(){
-        return numero;
     }
 
     public String getNombreDado(){

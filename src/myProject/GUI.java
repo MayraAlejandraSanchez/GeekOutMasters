@@ -29,7 +29,7 @@ public class GUI extends JFrame{
 
     private Header headerProject;
     private JLabel mano;
-    private JButton lanzar,ayuda,salir, creditos, botonExplicacion, dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10 ;
+    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10 ;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion, imageDado;
     private JTextArea mensajesSalida;//,resultadosDados;
@@ -406,9 +406,11 @@ public class GUI extends JFrame{
             botones.add(dado9);
             botones.add(dado10);
 
-            for(int dado=1; dado < 11; dado++){
+            for(int dado=0; dado < 10; dado++){
                 if(e.getSource() == botones.get(dado)){
                     modeldados.dadosUtilizados(botones.get(dado).getName());
+                    botones.get(dado).setEnabled(false);
+                    botones.remove(dado);
                     if (modeldados.getAccionDado(botones.get(dado).getName()) == "mepple"){
                         modeldados.accionMepple(botones.get(dado).getName());
                         break;
@@ -437,45 +439,7 @@ public class GUI extends JFrame{
                 }
                 break;
             }
-
-
-/*
-if (e.getSource()==dado1 & e.getClickCount()==1){
-                modeldados.dadosUtilizados("dado1");
-                if (modeldados.getAccionDado("dado1") == "mepple"){
-                    modeldados.accionMepple("dado1");
-                }else{
-                    if (modeldados.getAccionDado("dado1") == "superheroe"){
-                        modeldados.accionSuperHeroe("dado1");
-                    }else{
-                        if (modeldados.getAccionDado("dado1") == "dragon"){
-                            modeldados.accionDragon();
-                        }else{
-                            if (modeldados.getAccionDado("dado1") == "corazon"){
-                                modeldados.accionCorazon("dado1");
-                            }else{
-                                if (modeldados.getAccionDado("dado1") == "cohete"){
-                                    modeldados.accionCohete("dado1");
-                                }else{
-                                    if (modeldados.getAccionDado("dado1") == "42"){
-                                        modeldados.accion42("dado1");
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-
-            }else{
-/**
- * dado2
- */
         }
-
-
-
-
 
         @Override
         public void mousePressed(MouseEvent e) {

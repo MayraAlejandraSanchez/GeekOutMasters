@@ -1,6 +1,7 @@
 package myProject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 /**
  * Clase ModelDados
@@ -9,16 +10,16 @@ import java.util.Random;
  * @version 1.0.0 fecha 3/1/2022
  */
 public class ModelDados {
-    Dados dado1 = new Dados(1, "dado1");
-    Dados dado2 = new Dados(2, "dado2");
-    Dados dado3 = new Dados(3, "dado3");
-    Dados dado4 = new Dados(4, "dado4");
-    Dados dado5 = new Dados(5, "dado5");
-    Dados dado6 = new Dados(6, "dado6");
-    Dados dado7 = new Dados(7, "dado7");
-    Dados dado8 = new Dados(8, "dado8");
-    Dados dado9 = new Dados(9, "dado9");
-    Dados dado10 = new Dados(10,"dado10");
+    Dados dado1 = new Dados();
+    Dados dado2 = new Dados();
+    Dados dado3 = new Dados();
+    Dados dado4 = new Dados();
+    Dados dado5 = new Dados();
+    Dados dado6 = new Dados();
+    Dados dado7 = new Dados();
+    Dados dado8 = new Dados();
+    Dados dado9 = new Dados();
+    Dados dado10 = new Dados();
 
     private int dadoRandom;
     private ArrayList<Dados> dados;
@@ -56,8 +57,16 @@ public class ModelDados {
         }
     }
 
-    // asigna las acciones a cada dado
+    // Asigna el nombre a cada dado
+    public void asignacionNombreDado(){
+        for(int dado=0; dado < dados.size(); dado++){
+            dados.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
+        }
+    }
+
+    // Asigna las acciones a cada dado
     public void asignacionAcciones(){
+        asignacionNombreDado();
         for(int i=0; i < dados.size(); i++){
             dados.get(i).setNumAccion();
         }
@@ -86,17 +95,17 @@ public class ModelDados {
                     break;
             }
         }
+
         flag = 1;
     }
 
-    public String getAccionDado(String nombreDado){
-        String accionDado = null;
-        for(int dado=0; dado < dados.size(); dado++) {
-            if (nombreDado == dados.get(dado).getNombreDado()) {
-                accionDado = dados.get(dado).getAccion();
-                break;
-            }
+    public String getAccionDado(String _nombreDado){
+        HashMap<String, String> accion = new HashMap<>();
+        for(int dado=0; dado < dados.size(); dado++){
+            accion.put(dados.get(dado).getNombreDado(), dados.get(dado).getAccion());
         }
+
+        String accionDado = accion.get(_nombreDado);
         return accionDado;
     }
 
