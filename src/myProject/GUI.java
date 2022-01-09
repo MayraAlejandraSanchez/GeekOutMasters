@@ -8,11 +8,14 @@ package myProject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.lang.reflect.Field;
 
 public class GUI extends JFrame{
 
@@ -35,7 +38,6 @@ public class GUI extends JFrame{
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private ModelDados modelDados;
-    private ArrayList<JButton> botones ;
     /**
      * Constructor de la clase GUI
      */
@@ -247,6 +249,8 @@ public class GUI extends JFrame{
     private class Escucha implements ActionListener, MouseListener {
 
         ModelDados modeldados = new ModelDados();
+        ArrayList<JButton> botones = new ArrayList<>();
+        HashMap<String, JButton> valorBotones = new HashMap<>();
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -362,6 +366,23 @@ public class GUI extends JFrame{
                 dado10.setName("dado10");
                 panelDadosInactivos.add(dado10);
 
+                // Se agregan botones al ArrayList
+                botones.add(dado1);
+                botones.add(dado2);
+                botones.add(dado3);
+                botones.add(dado4);
+                botones.add(dado5);
+                botones.add(dado6);
+                botones.add(dado7);
+                botones.add(dado8);
+                botones.add(dado9);
+                botones.add(dado10);
+
+                // Se agregan la llave y el valor del map
+                for(int boton=0; boton < botones.size(); boton++){
+                    valorBotones.put(botones.get(boton).getName(), botones.get(boton));
+                }
+
             }else{
                 if(e.getSource()==creditos){
                     JOptionPane.showMessageDialog(null,CREDITOS);
@@ -393,52 +414,12 @@ public class GUI extends JFrame{
              * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
              */
 
-            ArrayList<JButton> botones = new ArrayList<>();
-
-            botones.add(dado1);
-            botones.add(dado2);
-            botones.add(dado3);
-            botones.add(dado4);
-            botones.add(dado5);
-            botones.add(dado6);
-            botones.add(dado7);
-            botones.add(dado8);
-            botones.add(dado9);
-            botones.add(dado10);
-
-            for(int dado=0; dado < 10; dado++){
-                if(e.getSource() == botones.get(dado)){
-                    modeldados.dadosUtilizados(botones.get(dado).getName());
-                    botones.get(dado).setEnabled(false);
-                    botones.remove(dado);
-                    if (modeldados.getAccionDado(botones.get(dado).getName()) == "mepple"){
-                        modeldados.accionMepple(botones.get(dado).getName());
-                        break;
-                    }else{
-                        if (modeldados.getAccionDado(botones.get(dado).getName()) == "superheroe"){
-                            modeldados.accionSuperHeroe(botones.get(dado).getName());
-                        }else{
-                            if (modeldados.getAccionDado(botones.get(dado).getName()) == "dragon"){
-                                modeldados.accionDragon();
-                            }else{
-                                if (modeldados.getAccionDado(botones.get(dado).getName()) == "corazon"){
-                                    modeldados.accionCorazon(botones.get(dado).getName());
-                                }else{
-                                    if (modeldados.getAccionDado(botones.get(dado).getName()) == "cohete"){
-                                        modeldados.accionCohete(botones.get(dado).getName());
-                                    }else{
-                                        if (modeldados.getAccionDado(botones.get(dado).getName())=="42"){
-                                            modeldados.accion42(botones.get(dado).getName());
-                                        }else{
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                break;
-            }
+            String nombreBoton = "";
+            String nombreAccion = "";
+            nombreBoton = e.getComponent().getName();
+            nombreAccion = modeldados.getAccionDado(nombreBoton);
+            modeldados.establecerAccionGUI(nombreAccion, nombreBoton);
+            valorBotones.get(nombreBoton).setEnabled(false);
         }
 
         @Override

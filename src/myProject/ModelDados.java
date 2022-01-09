@@ -47,6 +47,17 @@ public class ModelDados {
         ronda = 1;
     }
 
+    public void dadosUtilizados(String nombreDado){
+        for(int dado=0; dado < dados.size(); dado++){
+            if(nombreDado == dados.get(dado).getNombreDado()){
+                dadosUtilizados.add(dados.get(dado));
+                dados.remove(dado);
+                //asignacionNombreDado();
+                break;
+            }
+        }
+    }
+
     // Escoge 3 dados inactivos al azar
     public void dadosInactivos(){
         for(int inactivo=0; inactivo < 3; inactivo++){
@@ -99,6 +110,30 @@ public class ModelDados {
         flag = 1;
     }
 
+    public void establecerAccionGUI(String accion, String nombre){
+        if(accion == "mapple"){
+            accionMepple(nombre);
+        }else{
+            if(accion == "superheroe"){
+                accionSuperHeroe(nombre);
+            }else{
+                if(accion == "dragon"){
+                    accionDragon();
+                }else{
+                    if(accion == "corazon"){
+                        accionCorazon(nombre);
+                    }else{
+                        if(accion == "cohete"){
+                            accionCohete(nombre);
+                        }else{
+                            accion42(nombre);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public String getAccionDado(String _nombreDado){
         HashMap<String, String> accion = new HashMap<>();
         for(int dado=0; dado < dados.size(); dado++){
@@ -107,16 +142,6 @@ public class ModelDados {
 
         String accionDado = accion.get(_nombreDado);
         return accionDado;
-    }
-
-    public void dadosUtilizados(String nombreDado){
-        for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                dadosUtilizados.add(dados.get(dado));
-                dados.remove(dado);
-                break;
-            }
-        }
     }
 
     // Busca el dado seleccionado por su numero y lo tira nuevamente

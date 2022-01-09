@@ -16,11 +16,13 @@ public class Dados {
     public Dados(){
     }
 
+    // Asigna un numero aleatorio para tener una accion
     public void setNumAccion(){
         Random aleatorio = new Random();
         numeroAccion = aleatorio.nextInt(6)+1;
     }
 
+    // Se asigna un numero manualmente para tener una accion
     public void setNumAccionNoAleatorio(int numero){
         numeroAccion = numero;
     }
