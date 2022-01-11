@@ -12,6 +12,7 @@ public class Dados {
     private int numeroAccion;
     private String accion;
     private String nombreDado;
+    private String activoInactivo;
 
     public Dados(){
     }
@@ -35,6 +36,10 @@ public class Dados {
         nombreDado = _nombre;
     }
 
+    public void setActivoInactivo(String estado){
+        activoInactivo = estado;
+    }
+
     public int getNumAccion(){
         return numeroAccion;
     }
@@ -45,5 +50,9 @@ public class Dados {
 
     public String getNombreDado(){
         return nombreDado;
+    }
+
+    public String getActivoInactivo(){
+        return activoInactivo;
     }
 }

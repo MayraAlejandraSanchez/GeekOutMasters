@@ -10,41 +10,39 @@ import java.util.Random;
  * @version 1.0.0 fecha 3/1/2022
  */
 public class ModelDados {
-    Dados dado1 = new Dados();
-    Dados dado2 = new Dados();
-    Dados dado3 = new Dados();
-    Dados dado4 = new Dados();
-    Dados dado5 = new Dados();
-    Dados dado6 = new Dados();
-    Dados dado7 = new Dados();
-    Dados dado8 = new Dados();
-    Dados dado9 = new Dados();
-    Dados dado10 = new Dados();
 
     private int dadoRandom;
     private ArrayList<Dados> dados;
     private ArrayList<Dados> dadosInactivos;
     private ArrayList<Dados> dadosUtilizados;
+    private HashMap<String, String> accion;
+    private HashMap<String, String> activoInactivo;
+    private HashMap<String, Dados> nombreAObjeto;
     private int puntaje;
     private int ronda;
+    private int auxiliar = 0;
     private int flag;
 
+
     public ModelDados(){
+
+        // Creacion de 10 dados
         dados = new ArrayList<>();
-        dados.add(dado1);
-        dados.add(dado2);
-        dados.add(dado3);
-        dados.add(dado4);
-        dados.add(dado5);
-        dados.add(dado6);
-        dados.add(dado7);
-        dados.add(dado8);
-        dados.add(dado9);
-        dados.add(dado10);
+        for(int dado=0; dado < 10; dado++){
+            dados.add(new Dados());
+        }
+
+        accion = new HashMap<>();
+        nombreAObjeto = new HashMap<>();
+        activoInactivo = new HashMap<>();
         dadosInactivos = new ArrayList<>();
         dadosUtilizados = new ArrayList<>();
         flag = 0;
         ronda = 1;
+    }
+
+    public ArrayList listaDados(){
+        return dados;
     }
 
     public void dadosUtilizados(String nombreDado){
@@ -52,10 +50,14 @@ public class ModelDados {
             if(nombreDado == dados.get(dado).getNombreDado()){
                 dadosUtilizados.add(dados.get(dado));
                 dados.remove(dado);
-                //asignacionNombreDado();
                 break;
             }
         }
+    }
+
+    public void lanzamientoDados(){
+        identidadDado();
+        asignacionAcciones();
     }
 
     // Escoge 3 dados inactivos al azar
@@ -63,25 +65,29 @@ public class ModelDados {
         for(int inactivo=0; inactivo < 3; inactivo++){
             Random random = new Random();
             dadoRandom = random.nextInt(dados.size());
-            dadosInactivos.add(dados.get(dadoRandom));
-            dados.remove(dadoRandom);
+            dados.get(dadoRandom).setActivoInactivo("inactivo");
         }
     }
 
-    // Asigna el nombre a cada dado
-    public void asignacionNombreDado(){
+    // Asigna el nombre y estado a cada dado
+    public void identidadDado(){
         for(int dado=0; dado < dados.size(); dado++){
             dados.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
+            dados.get(dado).setActivoInactivo("activo");
+        }
+
+        // Establece los dados inactivos
+        dadosInactivos();
+        for(int dado=0; dado < dados.size(); dado++){
+            activoInactivo.put(dados.get(dado).getNombreDado(), dados.get(dado).getActivoInactivo());
         }
     }
 
-    // Asigna las acciones a cada dado
-    public void asignacionAcciones(){
-        asignacionNombreDado();
-        for(int i=0; i < dados.size(); i++){
-            dados.get(i).setNumAccion();
-        }
+    public String activoInactivo(String nombreDado){
+        return activoInactivo.get(nombreDado);
+    }
 
+    public void listaAcciones(){
         for(int numero=0; numero < dados.size(); numero++){
             switch(dados.get(numero).getNumAccion()){
                 case 1:
@@ -106,36 +112,19 @@ public class ModelDados {
                     break;
             }
         }
+    }
 
+    // Asigna las acciones a cada dado
+    public void asignacionAcciones(){
+        for(int i=0; i < dados.size(); i++){
+            dados.get(i).setNumAccion();
+        }
+
+        listaAcciones();
         flag = 1;
     }
 
-    public void establecerAccionGUI(String accion, String nombre){
-        if(accion == "mapple"){
-            accionMepple(nombre);
-        }else{
-            if(accion == "superheroe"){
-                accionSuperHeroe(nombre);
-            }else{
-                if(accion == "dragon"){
-                    accionDragon();
-                }else{
-                    if(accion == "corazon"){
-                        accionCorazon(nombre);
-                    }else{
-                        if(accion == "cohete"){
-                            accionCohete(nombre);
-                        }else{
-                            accion42(nombre);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     public String getAccionDado(String _nombreDado){
-        HashMap<String, String> accion = new HashMap<>();
         for(int dado=0; dado < dados.size(); dado++){
             accion.put(dados.get(dado).getNombreDado(), dados.get(dado).getAccion());
         }
@@ -147,11 +136,11 @@ public class ModelDados {
     // Busca el dado seleccionado por su numero y lo tira nuevamente
     public void accionMepple(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                dados.get(dado).setNumAccion();
-                break;
-            }
+            nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
         }
+
+        nombreAObjeto.get(nombreDado).setNumAccion();
+        listaAcciones();
     }
 
     public void accionSuperHeroe(String nombreDado){

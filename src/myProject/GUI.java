@@ -8,14 +8,13 @@ package myProject;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
-import java.lang.reflect.Field;
+import java.util.Random;
 
 public class GUI extends JFrame{
 
@@ -32,17 +31,21 @@ public class GUI extends JFrame{
 
     private Header headerProject;
     private JLabel mano;
-    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, dado1,dado2,dado3,dado4,dado5,dado6,dado7,dado8,dado9,dado10 ;
+    private JButton lanzar, ayuda, salir, creditos, botonExplicacion;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion, imageDado;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
+    private CambiarImagen cambiarImagen;
     private ModelDados modelDados;
+    private ArrayList<JButton> botones;
+    private HashMap<String, JButton> valorBotones;
+    private int nuevoEscucha = 0; // Si es 0 se usa Escucha, de lo contrario se usa CambiarImagen
+
     /**
      * Constructor de la clase GUI
      */
     public GUI(){
-
         initGUI();
 
         //Configuracion por defecto del JFrame
@@ -63,9 +66,14 @@ public class GUI extends JFrame{
         //Configurar el diseño del contenedor JFrame
         this.getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
+
         //Crear objeto de escucha y objeto de control
         escucha = new Escucha();
+        cambiarImagen = new CambiarImagen();
         modelDados = new ModelDados();
+        botones = new ArrayList<>();
+        valorBotones = new HashMap<>();
+
         //Configurar JComponents
 
         //Titulo
@@ -229,7 +237,26 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
 
+        // Creacion de dados
 
+        modelDados.lanzamientoDados();
+        for(int dado=0; dado < modelDados.listaDados().size(); dado++){
+            botones.add(new JButton());
+            botones.get(dado).setName("dado" + String.valueOf(dado+1));
+            botones.get(dado).setBorder(null);
+            botones.get(dado).addMouseListener(escucha);
+            botones.get(dado).setVisible(false);
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1)) + ".png"));
+            botones.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+
+            if(modelDados.activoInactivo(botones.get(dado).getName()) == "inactivo"){
+                botones.get(dado).setBackground(Color.cyan);
+                panelDadosInactivos.add(botones.get(dado));
+            }else{
+                botones.get(dado).setBackground(Color.white);
+                panelDadosActivos.add(botones.get(dado));
+            }
+        }
     }
 
     /**
@@ -243,14 +270,87 @@ public class GUI extends JFrame{
         });
     }
 
+    public void escuchas(){
+        System.out.println(nuevoEscucha);
+        class GetEscuchas implements MouseListener{
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(nuevoEscucha == 0){
+                    escucha.mouseClicked(e);
+                }else{
+                    cambiarImagen.mouseClicked(e);
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        }
+    }
+
+    private class CambiarImagen implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String botonSecundario = "";
+            botonSecundario = e.getComponent().getName();
+            modelDados.accionMepple(botonSecundario);
+            //System.out.print(modelDados.getAccionDado(botonSecundario));
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario) + ".png"));
+            valorBotones.get(botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            for(int boton=0; boton < botones.size(); boton++){
+                botones.get(boton).removeMouseListener(this);
+                botones.get(boton).addMouseListener(escucha);
+            }
+            nuevoEscucha = 0;
+            escuchas();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
+
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-    private class Escucha implements ActionListener, MouseListener {
 
-        ModelDados modeldados = new ModelDados();
-        ArrayList<JButton> botones = new ArrayList<>();
-        HashMap<String, JButton> valorBotones = new HashMap<>();
+
+    private class Escucha implements ActionListener, MouseListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -261,124 +361,14 @@ public class GUI extends JFrame{
                 */
                 mano.setVisible(false);
                 /**
-                 * Aparecen y se crean los dados
+                 * Aparecen los dados
                  */
 
-                modeldados.asignacionAcciones();
+                for(int dado=0; dado < botones.size(); dado++){
+                    botones.get(dado).setVisible(true);
+                }
 
-                //dado1
-                dado1 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado1") + ".png"));
-                dado1.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado1.setBackground(Color.white);
-                dado1.setBorder(null);
-                dado1.addMouseListener(escucha);
-                dado1.setName("dado1");
-                panelDadosActivos.add(dado1);
-
-                //dado2
-                dado2 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado2") + ".png"));
-                dado2.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado2.setBackground(Color.white);
-                dado2.setBorder(null);
-                dado2.addMouseListener(escucha);
-                dado2.setName("dado2");
-                panelDadosActivos.add(dado2);
-
-                //dado3
-                dado3 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado3") + ".png"));
-                dado3.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado3.setBackground(Color.white);
-                dado3.setBorder(null);
-                dado3.addMouseListener(escucha);
-                dado3.setName("dado3");
-                panelDadosActivos.add(dado3);
-
-                //dado4
-                dado4 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado4") + ".png"));
-                dado4.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado4.setBackground(Color.white);
-                dado4.setBorder(null);
-                dado4.addMouseListener(escucha);
-                dado4.setName("dado4");
-                panelDadosActivos.add(dado4);
-
-                //dado5
-                dado5 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado5") + ".png"));
-                dado5.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado5.setBackground(Color.white);
-                dado5.setBorder(null);
-                dado5.addMouseListener(escucha);
-                dado5.setName("dado5");
-                panelDadosActivos.add(dado5);
-
-                //dado6
-                dado6 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado6") + ".png"));
-                dado6.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado6.setBackground(Color.white);
-                dado6.setBorder(null);
-                dado6.addMouseListener(escucha);
-                dado6.setName("dado6");
-                panelDadosActivos.add(dado6);
-
-                //dado7
-                dado7 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado7") + ".png"));
-                dado7.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado7.setBackground(Color.white);
-                dado7.setBorder(null);
-                dado7.addMouseListener(escucha);
-                dado7.setName("dado7");
-                panelDadosActivos.add(dado7);
-
-                //dado8
-                dado8 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado8") + ".png"));
-                dado8.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado8.setBackground(Color.cyan);
-                dado8.setBorder(null);
-                dado8.addMouseListener(escucha);
-                dado8.setName("dado8");
-                panelDadosInactivos.add(dado8);
-
-                //dado9
-                dado9 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado9") + ".png"));
-                dado9.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado9.setBackground(Color.cyan);
-                dado9.setBorder(null);
-                dado9.addMouseListener(escucha);
-                dado9.setName("dado9");
-                panelDadosInactivos.add(dado9);
-
-                //dado10
-                dado10 = new JButton();
-                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modeldados.getAccionDado("dado10") + ".png"));
-                dado10.setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
-                dado10.setBackground(Color.cyan);
-                dado10.setBorder(null);
-                dado10.addMouseListener(escucha);
-                dado10.setName("dado10");
-                panelDadosInactivos.add(dado10);
-
-                // Se agregan botones al ArrayList
-                botones.add(dado1);
-                botones.add(dado2);
-                botones.add(dado3);
-                botones.add(dado4);
-                botones.add(dado5);
-                botones.add(dado6);
-                botones.add(dado7);
-                botones.add(dado8);
-                botones.add(dado9);
-                botones.add(dado10);
-
-                // Se agregan la llave y el valor del map
+                // Map de nombre del dado y tipo de objeto
                 for(int boton=0; boton < botones.size(); boton++){
                     valorBotones.put(botones.get(boton).getName(), botones.get(boton));
                 }
@@ -396,11 +386,9 @@ public class GUI extends JFrame{
                         }else{
                             System.exit(0);
                         }
-
                     }
                 }
             }
-
         }
 
         /**
@@ -410,16 +398,25 @@ public class GUI extends JFrame{
 
         @Override
         public void mouseClicked(MouseEvent e) {
+
             /**
              * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
              */
 
             String nombreBoton = "";
             String nombreAccion = "";
+
             nombreBoton = e.getComponent().getName();
-            nombreAccion = modeldados.getAccionDado(nombreBoton);
-            modeldados.establecerAccionGUI(nombreAccion, nombreBoton);
+            nombreAccion = modelDados.getAccionDado(nombreBoton);
             valorBotones.get(nombreBoton).setEnabled(false);
+            if(nombreAccion == "mepple") {
+                for(int boton=0; boton < botones.size(); boton++){
+                    botones.get(boton).removeMouseListener(this);
+                    botones.get(boton).addMouseListener(cambiarImagen);
+                }
+                nuevoEscucha = 1;
+                escuchas();
+            }
         }
 
         @Override
