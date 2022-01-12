@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
-import java.util.Random;
 
 public class GUI extends JFrame{
 
@@ -37,6 +36,7 @@ public class GUI extends JFrame{
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private CambiarImagen cambiarImagen;
+    private AccionSuperHeroe superheroe;
     private ModelDados modelDados;
     private ArrayList<JButton> botones;
     private HashMap<String, JButton> valorBotones;
@@ -70,6 +70,7 @@ public class GUI extends JFrame{
         //Crear objeto de escucha y objeto de control
         escucha = new Escucha();
         cambiarImagen = new CambiarImagen();
+        superheroe = new AccionSuperHeroe();
         modelDados = new ModelDados();
         botones = new ArrayList<>();
         valorBotones = new HashMap<>();
@@ -271,15 +272,32 @@ public class GUI extends JFrame{
     }
 
     public void escuchas(){
-        System.out.println(nuevoEscucha);
         class GetEscuchas implements MouseListener{
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(nuevoEscucha == 0){
-                    escucha.mouseClicked(e);
-                }else{
-                    cambiarImagen.mouseClicked(e);
+                switch (nuevoEscucha){
+                    case 0:
+                        escucha.mouseClicked(e);
+                        break;
+                    case 1:
+                        cambiarImagen.mouseClicked(e);
+                        break;
+                    case 2:
+                        superheroe.mouseClicked(e);
+                        break;
+                    case 3:
+                        //dragon.mouseClicked(e);
+                        break;
+                    case 4:
+                        //corazon.mouseClicked(e);
+                        break;
+                    case 5:
+                        //cohete.mouseClicked(e);
+                        break;
+                    case 6:
+                        //42.mouseClicked(e);
+                        break;
                 }
             }
 
@@ -305,6 +323,44 @@ public class GUI extends JFrame{
         }
     }
 
+    private class AccionSuperHeroe implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String botonSecundario = "";
+            botonSecundario = e.getComponent().getName();
+            modelDados.accionSuperHeroe(botonSecundario);
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario) + ".png"));
+            valorBotones.get(botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            for(int boton=0; boton < botones.size(); boton++){
+                botones.get(boton).removeMouseListener(this);
+                botones.get(boton).addMouseListener(escucha);
+            }
+            nuevoEscucha = 0;
+            escuchas();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
     private class CambiarImagen implements MouseListener{
 
         @Override
@@ -312,7 +368,6 @@ public class GUI extends JFrame{
             String botonSecundario = "";
             botonSecundario = e.getComponent().getName();
             modelDados.accionMepple(botonSecundario);
-            //System.out.print(modelDados.getAccionDado(botonSecundario));
             imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario) + ".png"));
             valorBotones.get(botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
             for(int boton=0; boton < botones.size(); boton++){
@@ -416,6 +471,15 @@ public class GUI extends JFrame{
                 }
                 nuevoEscucha = 1;
                 escuchas();
+            }else{
+                if(nombreAccion == "superheroe") {
+                    for(int boton=0; boton < botones.size(); boton++){
+                        botones.get(boton).removeMouseListener(this);
+                        botones.get(boton).addMouseListener(superheroe);
+                    }
+                    nuevoEscucha = 2;
+                    escuchas();
+                }
             }
         }
 

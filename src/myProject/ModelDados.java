@@ -141,40 +141,45 @@ public class ModelDados {
 
         nombreAObjeto.get(nombreDado).setNumAccion();
         listaAcciones();
+        nombreAObjeto.clear();
     }
 
     public void accionSuperHeroe(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                if(dados.get(dado).getAccion() == "mepple"){
-                    dados.get(dado).setNumAccionNoAleatorio(5);
-                    break;
+            nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
+        }
+
+        if(nombreAObjeto.get(nombreDado).getAccion() == "mepple"){
+            nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(5);
+            listaAcciones();
+        }else{
+            if(nombreAObjeto.get(nombreDado).getAccion() == "superheroe"){
+                nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(3);
+                listaAcciones();
+            }else{
+                if(nombreAObjeto.get(nombreDado).getAccion() == "dragon"){
+                    nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(2);
+                    listaAcciones();
                 }else{
-                    if(dados.get(dado).getAccion() == "cohete"){
-                        dados.get(dado).setNumAccionNoAleatorio(1);
-                        break;
+                    if(nombreAObjeto.get(nombreDado).getAccion() == "corazon"){
+                        nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(6);
+                        listaAcciones();
                     }else{
-                        if(dados.get(dado).getAccion() == "superheroe"){
-                            dados.get(dado).setNumAccionNoAleatorio(3);
-                            break;
+                        if(nombreAObjeto.get(nombreDado).getAccion() == "cohete"){
+                            nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(1);
+                            listaAcciones();
                         }else{
-                            if(dados.get(dado).getAccion() == "dragon"){
-                                dados.get(dado).setNumAccionNoAleatorio(2);
-                                break;
-                            }else{
-                                if(dados.get(dado).getAccion() == "corazon"){
-                                    dados.get(dado).setNumAccionNoAleatorio(6);
-                                    break;
-                                }else{
-                                    dados.get(dado).setNumAccionNoAleatorio(4);
-                                    break;
-                                }
+                            if(nombreAObjeto.get(nombreDado).getAccion() == "42"){
+                                nombreAObjeto.get(nombreDado).setNumAccionNoAleatorio(4);
+                                listaAcciones();
                             }
                         }
                     }
                 }
             }
         }
+
+        nombreAObjeto.clear();
     }
 
     public void accionDragon(){
