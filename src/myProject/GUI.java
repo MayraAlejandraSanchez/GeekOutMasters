@@ -39,8 +39,12 @@ public class GUI extends JFrame{
     private AccionSuperHeroe superheroe;
     private ModelDados modelDados;
     private ArrayList<JButton> botones;
+    private ArrayList<JButton> botonesUtilizados;
+    private ArrayList<JButton> botonesInactivos;
     private HashMap<String, JButton> valorBotones;
-    private int nuevoEscucha = 0; // Si es 0 se usa Escucha, de lo contrario se usa CambiarImagen
+    private HashMap<JButton, String> botonANombre;
+    private int nuevoEscucha = 0; // Dependiendo del numero usa un MouseListener distinto
+    private int puntaje;
 
     /**
      * Constructor de la clase GUI
@@ -73,7 +77,11 @@ public class GUI extends JFrame{
         superheroe = new AccionSuperHeroe();
         modelDados = new ModelDados();
         botones = new ArrayList<>();
+        botonesUtilizados = new ArrayList<>();
+        botonesInactivos = new ArrayList<>();
         valorBotones = new HashMap<>();
+        botonANombre = new HashMap<>();
+        puntaje = 0;
 
         //Configurar JComponents
 
@@ -241,22 +249,31 @@ public class GUI extends JFrame{
         // Creacion de dados
 
         modelDados.lanzamientoDados();
-        for(int dado=0; dado < modelDados.listaDados().size(); dado++){
+
+        // Inicializacion dados activos
+        for(int dado=0; dado < modelDados.listaDados("activos").size(); dado++){
             botones.add(new JButton());
             botones.get(dado).setName("dado" + String.valueOf(dado+1));
             botones.get(dado).setBorder(null);
+            botones.get(dado).setBackground(Color.white);
             botones.get(dado).addMouseListener(escucha);
             botones.get(dado).setVisible(false);
-            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1)) + ".png"));
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1), "activos") + ".png"));
             botones.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            panelDadosActivos.add(botones.get(dado));
+        }
 
-            if(modelDados.activoInactivo(botones.get(dado).getName()) == "inactivo"){
-                botones.get(dado).setBackground(Color.cyan);
-                panelDadosInactivos.add(botones.get(dado));
-            }else{
-                botones.get(dado).setBackground(Color.white);
-                panelDadosActivos.add(botones.get(dado));
-            }
+        // Inicializacion dados inactivos
+        for(int dado=0; dado < modelDados.listaDados("inactivos").size(); dado++){
+            botonesInactivos.add(new JButton());
+            botonesInactivos.get(dado).setName("dado" + String.valueOf(dado+1));
+            botonesInactivos.get(dado).setBorder(null);
+            botonesInactivos.get(dado).setBackground(Color.cyan);
+            botonesInactivos.get(dado).addMouseListener(escucha);
+            botonesInactivos.get(dado).setVisible(false);
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1), "inactivos") + ".png"));
+            botonesInactivos.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            panelDadosInactivos.add(botonesInactivos.get(dado));
         }
     }
 
@@ -271,9 +288,59 @@ public class GUI extends JFrame{
         });
     }
 
+    // Renombra los botones cada que se elimine o agregue un elemento de algun ArrayList
+    public void renombrarBotones(String nombreArray){
+        if(nombreArray == "activos"){
+            for(int boton=0; boton < botones.size(); boton++){
+                botones.get(boton).setName("dado" + String.valueOf(boton+1));
+            }
+        }else{
+            if(nombreArray == "inactivos"){
+                for(int boton=0; boton < botonesInactivos.size(); boton++){
+                    botonesInactivos.get(boton).setName("dado" + String.valueOf(boton+1));
+                }
+            }else{
+                for(int boton=0; boton < botonesUtilizados.size(); boton++){
+                    botonesUtilizados.get(boton).setName("dado" + String.valueOf(boton+1));
+                }
+            }
+        }
+    }
+
+    // Hace pares de nombre y JButton dependiendo del ArrayList y me retorna el JButton
+    public JButton mappingJButton(String nombreArray, String nombreDado){
+        if(nombreArray == "activos"){
+            for(int boton=0; boton < botones.size(); boton++){
+                valorBotones.put(botones.get(boton).getName(), botones.get(boton));
+            }
+        }else{
+            if(nombreArray == "inactivos"){
+                for(int boton=0; boton < botonesInactivos.size(); boton++){
+                    valorBotones.put(botonesInactivos.get(boton).getName(), botonesInactivos.get(boton));
+                }
+            }else{
+                for(int boton=0; boton < botonesUtilizados.size(); boton++){
+                    valorBotones.put(botonesUtilizados.get(boton).getName(), botonesUtilizados.get(boton));
+                }
+            }
+        }
+        return valorBotones.get(nombreDado);
+    }
+
+    public void rondas(String boton){
+        if(botones.size() == 1 && (modelDados.getAccionDado(boton, "activos") == "42")){
+            puntaje += 1;
+        }else{
+            if(botones.size() == 1 && (modelDados.getAccionDado(boton, "activos") == "dragon")){
+                puntaje = 0;
+            }else{
+                puntaje += 0;
+            }
+        }
+    }
+
     public void escuchas(){
         class GetEscuchas implements MouseListener{
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 switch (nuevoEscucha){
@@ -323,6 +390,7 @@ public class GUI extends JFrame{
         }
     }
 
+    // Realiza la accion del dado Superheroe
     private class AccionSuperHeroe implements MouseListener{
 
         @Override
@@ -330,8 +398,8 @@ public class GUI extends JFrame{
             String botonSecundario = "";
             botonSecundario = e.getComponent().getName();
             modelDados.accionSuperHeroe(botonSecundario);
-            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario) + ".png"));
-            valorBotones.get(botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
+            mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
             for(int boton=0; boton < botones.size(); boton++){
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
@@ -361,6 +429,7 @@ public class GUI extends JFrame{
         }
     }
 
+    // Realiza la accion del dado Mepple
     private class CambiarImagen implements MouseListener{
 
         @Override
@@ -368,8 +437,8 @@ public class GUI extends JFrame{
             String botonSecundario = "";
             botonSecundario = e.getComponent().getName();
             modelDados.accionMepple(botonSecundario);
-            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario) + ".png"));
-            valorBotones.get(botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
+            mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
             for(int boton=0; boton < botones.size(); boton++){
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
@@ -405,6 +474,7 @@ public class GUI extends JFrame{
      */
 
 
+    // Evento principal cuando se lanza los dados y se presiona un dado
     private class Escucha implements ActionListener, MouseListener {
 
         @Override
@@ -416,16 +486,15 @@ public class GUI extends JFrame{
                 */
                 mano.setVisible(false);
                 /**
-                 * Aparecen los dados
+                 * Aparecen los dados activos e inactivos
                  */
 
                 for(int dado=0; dado < botones.size(); dado++){
                     botones.get(dado).setVisible(true);
                 }
 
-                // Map de nombre del dado y tipo de objeto
-                for(int boton=0; boton < botones.size(); boton++){
-                    valorBotones.put(botones.get(boton).getName(), botones.get(boton));
+                for(int dado=0; dado < botonesInactivos.size(); dado++){
+                    botonesInactivos.get(dado).setVisible(true);
                 }
 
             }else{
@@ -462,15 +531,23 @@ public class GUI extends JFrame{
             String nombreAccion = "";
 
             nombreBoton = e.getComponent().getName();
-            nombreAccion = modelDados.getAccionDado(nombreBoton);
-            valorBotones.get(nombreBoton).setEnabled(false);
+            nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
+            mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
+            panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
+            botonesUtilizados.add(mappingJButton("activos", nombreBoton));
+            renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
+            botones.remove(botones.indexOf(mappingJButton("activos", nombreBoton)));
+            renombrarBotones("activos"); // Actualiza los nombres de los botones del ArrayList activos
+            modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de acivos y lo mueve a utilizados
             if(nombreAccion == "mepple") {
                 for(int boton=0; boton < botones.size(); boton++){
                     botones.get(boton).removeMouseListener(this);
                     botones.get(boton).addMouseListener(cambiarImagen);
                 }
                 nuevoEscucha = 1;
+                //rondas(nombreBoton);
                 escuchas();
+
             }else{
                 if(nombreAccion == "superheroe") {
                     for(int boton=0; boton < botones.size(); boton++){
@@ -478,6 +555,7 @@ public class GUI extends JFrame{
                         botones.get(boton).addMouseListener(superheroe);
                     }
                     nuevoEscucha = 2;
+                    //rondas(nombreBoton);
                     escuchas();
                 }
             }

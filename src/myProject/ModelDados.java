@@ -15,9 +15,9 @@ public class ModelDados {
     private ArrayList<Dados> dados;
     private ArrayList<Dados> dadosInactivos;
     private ArrayList<Dados> dadosUtilizados;
-    private HashMap<String, String> accion;
-    private HashMap<String, String> activoInactivo;
-    private HashMap<String, Dados> nombreAObjeto;
+    private HashMap<String, String> nombreAAccion; // Sirve para identificar la accion por medio de su nombre
+    private HashMap<String, String> nombreAEstado; // Sirve para identificar cuales dados son activos e inactivos por medio de su nombre
+    private HashMap<String, Dados> nombreAObjeto; // Sirve para retornar el objeto por medio de su nombre
     private int puntaje;
     private int ronda;
     private int auxiliar = 0;
@@ -32,32 +32,50 @@ public class ModelDados {
             dados.add(new Dados());
         }
 
-        accion = new HashMap<>();
+        nombreAAccion = new HashMap<>();
         nombreAObjeto = new HashMap<>();
-        activoInactivo = new HashMap<>();
+        nombreAEstado = new HashMap<>();
         dadosInactivos = new ArrayList<>();
         dadosUtilizados = new ArrayList<>();
         flag = 0;
         ronda = 1;
     }
 
-    public ArrayList listaDados(){
-        return dados;
+    // Retorna el array ingresado
+    public ArrayList listaDados(String nombreArray){
+        ArrayList<Dados> auxiliar;
+        if(nombreArray == "activos"){
+            auxiliar = dados;
+        }else{
+            if(nombreArray == "inactivos"){
+                auxiliar = dadosInactivos;
+            }else{
+                auxiliar = dadosUtilizados;
+            }
+        }
+        return auxiliar;
     }
 
     public void dadosUtilizados(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                dadosUtilizados.add(dados.get(dado));
-                dados.remove(dado);
-                break;
-            }
+            nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
         }
+
+        dadosUtilizados.add(nombreAObjeto.get(nombreDado));
+        dados.remove(nombreAObjeto.get(nombreDado));
+        identidadDado("activos");
+        identidadDado("utilizados");
+        identidadDado("inactivos");
+        nombreAObjeto.clear();
     }
 
+    // Inicio del juego
     public void lanzamientoDados(){
-        identidadDado();
-        asignacionAcciones();
+        asignacionAcciones(); // Asigna todas las acciones del ArrayList dados
+        setActivo(); // Establece estado activo a todos los dados
+        dadosInactivos(); // Selecciona 3 dados inactivos y los borra del Arraylist dados
+        identidadDado("activos"); // Actualiza los nombres del ArrayList dados
+        identidadDado("inactivos"); // Actualiza los nombres del ArrayList dadosInactivos
     }
 
     // Escoge 3 dados inactivos al azar
@@ -66,25 +84,42 @@ public class ModelDados {
             Random random = new Random();
             dadoRandom = random.nextInt(dados.size());
             dados.get(dadoRandom).setActivoInactivo("inactivo");
+            dadosInactivos.add(dados.get(dadoRandom));
+            dados.remove(dadoRandom);
+        }
+
+        identidadDado("activos");
+        identidadDado("inactivos");
+    }
+
+    // Asigna el nombre a cada dado dependiendo del ArrayList
+    public void identidadDado(String array){
+        if(array == "activos"){
+            for(int dado=0; dado < dados.size(); dado++){
+                dados.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
+            }
+        }else{
+            if(array == "inactivos"){
+                for(int dado=0; dado < dadosInactivos.size(); dado++){
+                    dadosInactivos.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
+                }
+            }else{
+                for(int dado=0; dado < dadosUtilizados.size(); dado++){
+                    dadosUtilizados.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
+                }
+            }
         }
     }
 
-    // Asigna el nombre y estado a cada dado
-    public void identidadDado(){
+    // Establece el estado inicial (activo) del ArrayList dados
+    public void setActivo(){
         for(int dado=0; dado < dados.size(); dado++){
-            dados.get(dado).setNombreDado("dado" + String.valueOf(dado+1));
             dados.get(dado).setActivoInactivo("activo");
-        }
-
-        // Establece los dados inactivos
-        dadosInactivos();
-        for(int dado=0; dado < dados.size(); dado++){
-            activoInactivo.put(dados.get(dado).getNombreDado(), dados.get(dado).getActivoInactivo());
         }
     }
 
     public String activoInactivo(String nombreDado){
-        return activoInactivo.get(nombreDado);
+        return nombreAEstado.get(nombreDado);
     }
 
     public void listaAcciones(){
@@ -124,12 +159,21 @@ public class ModelDados {
         flag = 1;
     }
 
-    public String getAccionDado(String _nombreDado){
-        for(int dado=0; dado < dados.size(); dado++){
-            accion.put(dados.get(dado).getNombreDado(), dados.get(dado).getAccion());
+    // Retorna la accion de un dado, dependiendo del array donde este
+    public String getAccionDado(String _nombreDado, String nombreArray){
+        String accionDado = "";
+        if(nombreArray == "activos"){
+            for(int dado=0; dado < dados.size(); dado++){
+                nombreAAccion.put(dados.get(dado).getNombreDado(), dados.get(dado).getAccion());
+            }
+            accionDado = nombreAAccion.get(_nombreDado);
+        }else{
+            for(int dado=0; dado < dadosInactivos.size(); dado++){
+                nombreAAccion.put(dados.get(dado).getNombreDado(), dados.get(dado).getAccion());
+            }
+            accionDado = nombreAAccion.get(_nombreDado);
         }
 
-        String accionDado = accion.get(_nombreDado);
         return accionDado;
     }
 
@@ -178,7 +222,6 @@ public class ModelDados {
                 }
             }
         }
-
         nombreAObjeto.clear();
     }
 
@@ -191,7 +234,6 @@ public class ModelDados {
             if(nombreDado == dadosInactivos.get(dado).getNombreDado()){
                 dados.add(dadosInactivos.get(dado));
                 dados.get(dados.indexOf(dadosInactivos.get(dado))).getNumAccion();
-                dadosInactivos.remove(dado);
                 break;
             }
         }
@@ -201,7 +243,6 @@ public class ModelDados {
         for(int dado=0; dado < dados.size(); dado++){
             if(nombreDado == dados.get(dado).getNombreDado()){
                 dadosInactivos.add(dados.get(dado));
-                dados.remove(dado);
                 break;
             }
         }
@@ -243,8 +284,7 @@ public class ModelDados {
         }
     }
 
-
-    // estado del juego
+    // Estado del juego
     public int getFlag(){
         if(ronda < 5){
             flag = 1; // continua el juego
