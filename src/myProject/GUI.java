@@ -45,6 +45,7 @@ public class GUI extends JFrame{
     private HashMap<JButton, String> botonANombre;
     private int nuevoEscucha = 0; // Dependiendo del numero usa un MouseListener distinto
     private int puntaje;
+    private int ronda;
 
     /**
      * Constructor de la clase GUI
@@ -82,6 +83,7 @@ public class GUI extends JFrame{
         valorBotones = new HashMap<>();
         botonANombre = new HashMap<>();
         puntaje = 0;
+        ronda = 1;
 
         //Configurar JComponents
 
@@ -324,17 +326,107 @@ public class GUI extends JFrame{
                 }
             }
         }
+
+        //System.out.println(valorBotones.size());
         return valorBotones.get(nombreDado);
     }
 
-    public void rondas(String boton){
-        if(botones.size() == 1 && (modelDados.getAccionDado(boton, "activos") == "42")){
-            puntaje += 1;
-        }else{
-            if(botones.size() == 1 && (modelDados.getAccionDado(boton, "activos") == "dragon")){
-                puntaje = 0;
+    public void rondas(){
+        int acumulador = 0;
+        if(botones.size() == 1){
+            if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
+                puntaje += 1;
+                ronda += 1;
+                System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                System.out.println("Ronda: " + String.valueOf(ronda));
             }else{
-                puntaje += 0;
+                if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
+                    puntaje = 0;
+                    ronda += 1;
+                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                    System.out.println("Ronda: " + String.valueOf(ronda));
+                }else{
+                    puntaje += 0;
+                    ronda += 1;
+                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                    System.out.println("Ronda: " + String.valueOf(ronda));
+                }
+            }
+        }else{
+            for (int boton=0; boton < botones.size(); boton++){
+                if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "42"){
+                    acumulador += 1;
+                }else{
+                    acumulador += 0;
+                }
+            }
+            if(acumulador == botones.size()){
+                switch (acumulador){
+                    case 1:
+                        puntaje += 1;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 2:
+                        puntaje += 3;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 3:
+                        puntaje += 6;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 4:
+                        puntaje += 10;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 5:
+                        puntaje += 15;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 6:
+                        puntaje += 21;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 7:
+                        puntaje += 28;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 8:
+                        puntaje += 36;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 9:
+                        puntaje += 45;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    case 10:
+                        puntaje += 55;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        break;
+                    default:
+                        break;
+                }
+            }else{
+                System.out.println("Sigue jugando");
             }
         }
     }
@@ -400,6 +492,7 @@ public class GUI extends JFrame{
             modelDados.accionSuperHeroe(botonSecundario);
             imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
             mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+
             for(int boton=0; boton < botones.size(); boton++){
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
@@ -439,6 +532,7 @@ public class GUI extends JFrame{
             modelDados.accionMepple(botonSecundario);
             imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
             mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+
             for(int boton=0; boton < botones.size(); boton++){
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
@@ -539,13 +633,17 @@ public class GUI extends JFrame{
             botones.remove(botones.indexOf(mappingJButton("activos", nombreBoton)));
             renombrarBotones("activos"); // Actualiza los nombres de los botones del ArrayList activos
             modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de acivos y lo mueve a utilizados
+            valorBotones.clear();
+            rondas();
+            escuchas();
+
             if(nombreAccion == "mepple") {
                 for(int boton=0; boton < botones.size(); boton++){
                     botones.get(boton).removeMouseListener(this);
                     botones.get(boton).addMouseListener(cambiarImagen);
                 }
                 nuevoEscucha = 1;
-                //rondas(nombreBoton);
+                rondas();
                 escuchas();
 
             }else{
@@ -555,7 +653,7 @@ public class GUI extends JFrame{
                         botones.get(boton).addMouseListener(superheroe);
                     }
                     nuevoEscucha = 2;
-                    //rondas(nombreBoton);
+                    rondas();
                     escuchas();
                 }
             }
