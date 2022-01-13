@@ -32,7 +32,7 @@ public class GUI extends JFrame{
     private JLabel mano;
     private JButton lanzar, ayuda, salir, creditos, botonExplicacion;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
-    private ImageIcon imageMano, imageExplicacion, imageDado;
+    private ImageIcon imageMano, imageExplicacion, imageDado, fondo;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
     private CambiarImagen cambiarImagen;
@@ -48,6 +48,7 @@ public class GUI extends JFrame{
     private int puntaje;
     private int ronda;
 
+
     /**
      * Constructor de la clase GUI
      */
@@ -61,8 +62,10 @@ public class GUI extends JFrame{
         this.setResizable(true);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+
 
     /**
      * Este método se utiliza para configurar la configuración predeterminada de JComponent,
@@ -95,7 +98,7 @@ public class GUI extends JFrame{
         constraints.gridx=3;
         constraints.gridy=1;
         constraints.gridwidth=3;
-        constraints.fill=GridBagConstraints.HORIZONTAL;
+        constraints.fill=GridBagConstraints.CENTER;
         this.add(headerProject,constraints);
 
         /**
@@ -109,22 +112,22 @@ public class GUI extends JFrame{
         constraints.gridy=1;
         constraints.gridwidth=2;
         constraints.fill=GridBagConstraints.NONE;
-        constraints.anchor=GridBagConstraints.LINE_START;
+        constraints.anchor=GridBagConstraints.CENTER;
         this.add(ayuda,constraints);
 
         /**
          * Creacion de boton "Creditos"
          */
-
         creditos = new JButton(" Creditos ");
         creditos.addActionListener(escucha);
         creditos.setBackground(Color.yellow);
-        constraints.gridx=1;
-        constraints.gridy=4;
+        constraints.gridx=2;
+        constraints.gridy=1;
         constraints.gridwidth=1;
-        constraints.fill=GridBagConstraints.BOTH;
-        constraints.anchor=GridBagConstraints.CENTER;
+        constraints.fill=GridBagConstraints.CENTER;
+        constraints.anchor=GridBagConstraints.LINE_START;
         this.add(creditos,constraints);
+
 
         /**
          * Creacion de boton "Salir"
@@ -147,8 +150,8 @@ public class GUI extends JFrame{
         botonExplicacion = new JButton("Explicación dados");
         botonExplicacion.addActionListener(escucha);
         botonExplicacion.setBackground(Color.ORANGE);
-        constraints.gridx=4;
-        constraints.gridy=2;
+        constraints.gridx=6;
+        constraints.gridy=3;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.NONE;
         constraints.anchor=GridBagConstraints.CENTER;
@@ -169,7 +172,7 @@ public class GUI extends JFrame{
         panelDadosActivos.add(mano);
 
         constraints.gridx=3;
-        constraints.gridy=3;
+        constraints.gridy=2;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
@@ -180,9 +183,9 @@ public class GUI extends JFrame{
          */
 
         panelDadosUtilizados = new JPanel();
-        panelDadosUtilizados.setPreferredSize(new Dimension(200,180));
+        panelDadosUtilizados.setPreferredSize(new Dimension(300,300));
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados utilizados"));
-        panelDadosUtilizados.setBackground(Color.cyan);
+        panelDadosUtilizados.setBackground(Color.white);
 
         constraints.gridx=0;
         constraints.gridy=2;
@@ -196,9 +199,9 @@ public class GUI extends JFrame{
          */
 
         panelDadosInactivos = new JPanel();
-        panelDadosInactivos.setPreferredSize(new Dimension(200,180));
+        panelDadosInactivos.setPreferredSize(new Dimension(300,300));
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
-        panelDadosInactivos.setBackground(Color.CYAN);
+        panelDadosInactivos.setBackground(Color.white);
 
 
         constraints.gridx=6;
@@ -214,10 +217,11 @@ public class GUI extends JFrame{
          */
 
         panelPuntaje = new JPanel();
-        panelPuntaje.setPreferredSize(new Dimension(200,225));
+        panelPuntaje.setPreferredSize(new Dimension(200,100));
         panelPuntaje.setBorder(BorderFactory.createTitledBorder("Puntaje"));
+        panelPuntaje.setBackground(new Color(112, 215, 163, 255));
 
-        constraints.gridx=0;
+        constraints.gridx=3;
         constraints.gridy=3;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.BOTH;
@@ -232,10 +236,10 @@ public class GUI extends JFrame{
         lanzar.addActionListener(escucha);
         lanzar.setBackground(Color.pink);
 
-        constraints.gridx=7;
-        constraints.gridy=3;
+        constraints.gridx=1;
+        constraints.gridy= 3;
         constraints.gridwidth=3;
-        constraints.fill=GridBagConstraints.NONE;
+        constraints.fill=GridBagConstraints.CENTER;
         constraints.anchor=GridBagConstraints.CENTER;
         add(lanzar,constraints);
 
@@ -243,6 +247,7 @@ public class GUI extends JFrame{
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
         mensajesSalida.setBorder(BorderFactory.createTitledBorder("Atención: "));
         mensajesSalida.setEditable(false);
+        mensajesSalida.setBackground(new Color(241, 113, 113, 255));
         constraints.gridx=3;
         constraints.gridy=5;
         constraints.gridwidth=3;
@@ -272,7 +277,7 @@ public class GUI extends JFrame{
             botonesInactivos.add(new JButton());
             botonesInactivos.get(dado).setName("dado" + String.valueOf(dado+1));
             botonesInactivos.get(dado).setBorder(null);
-            botonesInactivos.get(dado).setBackground(Color.cyan);
+            botonesInactivos.get(dado).setBackground(Color.white);
             botonesInactivos.get(dado).setVisible(false);
             imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1), "inactivos") + ".png"));
             botonesInactivos.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
