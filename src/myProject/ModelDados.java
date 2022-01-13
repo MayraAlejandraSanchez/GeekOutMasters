@@ -159,6 +159,18 @@ public class ModelDados {
         flag = 1;
     }
 
+    public void adicionarDado(String array, String nombreDado){
+        for(int dado=0; dado < dadosInactivos.size(); dado++){
+            nombreAObjeto.put(dadosInactivos.get(dado).getNombreDado(), dadosInactivos.get(dado));
+        }
+
+        listaDados(array).add(nombreAObjeto.get(nombreDado));
+        dadosInactivos.remove(nombreAObjeto.get(nombreDado));
+        identidadDado("activos");
+        identidadDado("inactivos");
+        nombreAObjeto.clear();
+    }
+
     // Retorna la accion de un dado, dependiendo del array donde este
     public String getAccionDado(String _nombreDado, String nombreArray){
         String accionDado = "";
@@ -225,18 +237,19 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
-    public void accionDragon(){
-        puntaje = 0;
-    }
-
     public void accionCorazon(String nombreDado){
         for(int dado=0; dado < dadosInactivos.size(); dado++){
-            if(nombreDado == dadosInactivos.get(dado).getNombreDado()){
-                dados.add(dadosInactivos.get(dado));
-                dados.get(dados.indexOf(dadosInactivos.get(dado))).getNumAccion();
-                break;
-            }
+            nombreAObjeto.put(dadosInactivos.get(dado).getNombreDado(), dadosInactivos.get(dado));
         }
+
+        nombreAObjeto.get(nombreDado).setNumAccion();
+        nombreAObjeto.get(nombreDado).setAccion("activo");
+        dados.add(nombreAObjeto.get(nombreDado));
+        listaAcciones();
+        dadosInactivos.remove(nombreAObjeto.get(nombreDado));
+        identidadDado("activos");
+        identidadDado("inactivos");
+        nombreAObjeto.clear();
     }
 
     public void accionCohete(String nombreDado){

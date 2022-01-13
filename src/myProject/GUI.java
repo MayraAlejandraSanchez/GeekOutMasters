@@ -37,6 +37,7 @@ public class GUI extends JFrame{
     private Escucha escucha;
     private CambiarImagen cambiarImagen;
     private AccionSuperHeroe superheroe;
+    private AccionCorazon corazon;
     private ModelDados modelDados;
     private ArrayList<JButton> botones;
     private ArrayList<JButton> botonesUtilizados;
@@ -76,6 +77,7 @@ public class GUI extends JFrame{
         escucha = new Escucha();
         cambiarImagen = new CambiarImagen();
         superheroe = new AccionSuperHeroe();
+        corazon = new AccionCorazon();
         modelDados = new ModelDados();
         botones = new ArrayList<>();
         botonesUtilizados = new ArrayList<>();
@@ -271,7 +273,6 @@ public class GUI extends JFrame{
             botonesInactivos.get(dado).setName("dado" + String.valueOf(dado+1));
             botonesInactivos.get(dado).setBorder(null);
             botonesInactivos.get(dado).setBackground(Color.cyan);
-            botonesInactivos.get(dado).addMouseListener(escucha);
             botonesInactivos.get(dado).setVisible(false);
             imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(dado+1), "inactivos") + ".png"));
             botonesInactivos.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
@@ -288,6 +289,30 @@ public class GUI extends JFrame{
         EventQueue.invokeLater(() -> {
             myProject.GUI miProjectGUI = new myProject.GUI();
         });
+    }
+
+    public void actualizarPanel(String nombrePanel){
+        if(nombrePanel == "activos"){
+            panelDadosActivos.removeAll();
+            for(int boton=0; boton < botones.size(); boton++){
+                panelDadosActivos.add(botones.get(boton));
+            }
+            panelDadosActivos.updateUI();
+        }else{
+            if(nombrePanel == "inactivos"){
+                panelDadosInactivos.removeAll();
+                for(int boton=0; boton < botonesInactivos.size(); boton++){
+                    panelDadosInactivos.add(botonesInactivos.get(boton));
+                }
+                panelDadosInactivos.updateUI();
+            }else{
+                panelDadosUtilizados.removeAll();
+                for(int boton=0; boton < botonesUtilizados.size(); boton++){
+                    panelDadosUtilizados.add(botonesUtilizados.get(boton));
+                }
+                panelDadosUtilizados.updateUI();
+            }
+        }
     }
 
     // Renombra los botones cada que se elimine o agregue un elemento de algun ArrayList
@@ -446,15 +471,12 @@ public class GUI extends JFrame{
                         superheroe.mouseClicked(e);
                         break;
                     case 3:
-                        //dragon.mouseClicked(e);
+                        corazon.mouseClicked(e);
                         break;
                     case 4:
-                        //corazon.mouseClicked(e);
-                        break;
-                    case 5:
                         //cohete.mouseClicked(e);
                         break;
-                    case 6:
+                    case 5:
                         //42.mouseClicked(e);
                         break;
                 }
@@ -482,6 +504,57 @@ public class GUI extends JFrame{
         }
     }
 
+    private class AccionCorazon implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String botonSecundario = "";
+            botonSecundario = e.getComponent().getName();
+            modelDados.accionCorazon(botonSecundario);
+            botones.add(mappingJButton("inactivos", botonSecundario)); // Adiciona el boton en la lista activos
+            renombrarBotones("activos");
+            botonesInactivos.remove(mappingJButton("inactivos", botonSecundario)); // Borra el boton de la lista inactivos
+            renombrarBotones("inactivos");
+            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado("dado" + String.valueOf(botones.size()), "activos") + ".png")); // Al invocar accionCorazon, el dado ingresa de ultimo a la lista de activos
+            mappingJButton("activos", "dado" + String.valueOf(botones.size())).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+            actualizarPanel("activos");
+            actualizarPanel("inactivos");
+
+            for(int boton=0; boton < botonesInactivos.size(); boton++){
+                botonesInactivos.get(boton).removeMouseListener(this);
+                botonesInactivos.get(boton).setEnabled(false);
+            }
+
+            for(int boton=0; boton < botones.size(); boton++){
+                botones.get(boton).removeMouseListener(this);
+                botones.get(boton).addMouseListener(escucha);
+            }
+            nuevoEscucha = 0;
+            rondas();
+            escuchas();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
     // Realiza la accion del dado Superheroe
     private class AccionSuperHeroe implements MouseListener{
 
@@ -498,6 +571,7 @@ public class GUI extends JFrame{
                 botones.get(boton).addMouseListener(escucha);
             }
             nuevoEscucha = 0;
+            rondas();
             escuchas();
         }
 
@@ -538,6 +612,7 @@ public class GUI extends JFrame{
                 botones.get(boton).addMouseListener(escucha);
             }
             nuevoEscucha = 0;
+            rondas();
             escuchas();
         }
 
@@ -589,6 +664,7 @@ public class GUI extends JFrame{
 
                 for(int dado=0; dado < botonesInactivos.size(); dado++){
                     botonesInactivos.get(dado).setVisible(true);
+                    botonesInactivos.get(dado).setEnabled(false);
                 }
 
             }else{
@@ -628,11 +704,14 @@ public class GUI extends JFrame{
             nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
             mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
             panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
+            panelDadosActivos.remove(mappingJButton("activos", nombreBoton));
+            panelDadosActivos.updateUI();
+            panelDadosUtilizados.updateUI();
             botonesUtilizados.add(mappingJButton("activos", nombreBoton));
             renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
             botones.remove(botones.indexOf(mappingJButton("activos", nombreBoton)));
             renombrarBotones("activos"); // Actualiza los nombres de los botones del ArrayList activos
-            modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de acivos y lo mueve a utilizados
+            modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de activos y lo mueve a utilizados
             valorBotones.clear();
             rondas();
             escuchas();
@@ -655,6 +734,26 @@ public class GUI extends JFrame{
                     nuevoEscucha = 2;
                     rondas();
                     escuchas();
+                }else{
+                    if(nombreAccion == "dragon") {
+                        nuevoEscucha = 0;
+                        rondas();
+                        escuchas();
+                    }else{
+                        if(nombreAccion == "corazon") {
+                            for(int boton=0; boton < botones.size(); boton++){
+                                botones.get(boton).removeMouseListener(this);
+                            }
+
+                            for(int boton=0; boton < botonesInactivos.size(); boton++){
+                                botonesInactivos.get(boton).setEnabled(true);
+                                botonesInactivos.get(boton).addMouseListener(corazon);
+                            }
+                            nuevoEscucha = 3;
+                            rondas();
+                            escuchas();
+                        }
+                    }
                 }
             }
         }
