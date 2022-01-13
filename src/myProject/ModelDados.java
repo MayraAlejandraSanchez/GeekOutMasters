@@ -243,7 +243,7 @@ public class ModelDados {
         }
 
         nombreAObjeto.get(nombreDado).setNumAccion();
-        nombreAObjeto.get(nombreDado).setAccion("activo");
+        nombreAObjeto.get(nombreDado).setActivoInactivo("activo");
         dados.add(nombreAObjeto.get(nombreDado));
         listaAcciones();
         dadosInactivos.remove(nombreAObjeto.get(nombreDado));
@@ -254,47 +254,15 @@ public class ModelDados {
 
     public void accionCohete(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                dadosInactivos.add(dados.get(dado));
-                break;
-            }
-        }
-    }
-
-    public void accion42(String nombreDado){
-        for(int dado=0; dado < dados.size(); dado++){
-            if(nombreDado == dados.get(dado).getNombreDado()){
-                switch(ronda){
-                    case 1:
-                        puntaje = puntaje + 1;
-                        break;
-                    case 2:
-                        puntaje = puntaje + 3;
-                        break;
-                    case 3:
-                        puntaje = puntaje + 6;
-                        break;
-                    case 4:
-                        puntaje = puntaje + 10;
-                        break;
-                    case 5:
-                        puntaje = puntaje + 15;
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-    }
-
-    public void ronda(){
-        if(dados.size() == 1){
-            ronda = ronda + 1;
+            nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
         }
 
-        if(dados.get(0).getAccion() == "42"){
-            accion42(dados.get(0).getAccion());
-        }
+        nombreAObjeto.get(nombreDado).setActivoInactivo("inactivo");
+        dadosInactivos.add(nombreAObjeto.get(nombreDado));
+        dados.remove(nombreAObjeto.get(nombreDado));
+        identidadDado("activos");
+        identidadDado("inactivos");
+        nombreAObjeto.clear();
     }
 
     // Estado del juego
