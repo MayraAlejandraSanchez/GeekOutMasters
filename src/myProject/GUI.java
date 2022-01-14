@@ -49,7 +49,6 @@ public class GUI extends JFrame{
     private int puntaje;
     private int ronda;
 
-
     /**
      * Constructor de la clase GUI
      */
@@ -65,8 +64,6 @@ public class GUI extends JFrame{
         this.setLocationRelativeTo(null);
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-
 
     /**
      * Este método se utiliza para configurar la configuración predeterminada de JComponent,
@@ -129,7 +126,6 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.CENTER;
         constraints.anchor=GridBagConstraints.LINE_START;
         this.add(creditos,constraints);
-
 
         /**
          * Creacion de boton "Salir"
@@ -211,7 +207,6 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelDadosInactivos,constraints);
-
 
         /**
          * Creacion de panel puntaje
@@ -362,7 +357,6 @@ public class GUI extends JFrame{
     }
 
     public void rondas(){
-        System.out.println(botonesUtilizados.get(0).getName());
         int acumulador = 0; // 42
         int acumulador2 = 0; // dragones
 
@@ -783,8 +777,6 @@ public class GUI extends JFrame{
             nombreBoton = e.getComponent().getName();
             nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
             mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
-            //panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
-            //panelDadosActivos.remove(mappingJButton("activos", nombreBoton));
             botonesUtilizados.add(mappingJButton("activos", nombreBoton));
             renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
             botones.remove(mappingJButton("activos", nombreBoton));
@@ -799,6 +791,7 @@ public class GUI extends JFrame{
                     botones.get(boton).removeMouseListener(this);
                     botones.get(boton).addMouseListener(cambiarImagen);
                 }
+
                 nuevoEscucha = 1;
                 escuchas();
             }else{
@@ -807,6 +800,7 @@ public class GUI extends JFrame{
                         botones.get(boton).removeMouseListener(this);
                         botones.get(boton).addMouseListener(superheroe);
                     }
+
                     nuevoEscucha = 2;
                     escuchas();
                 }else{
@@ -825,6 +819,7 @@ public class GUI extends JFrame{
                                 botonesInactivos.get(boton).setEnabled(true);
                                 botonesInactivos.get(boton).addMouseListener(corazon);
                             }
+
                             nuevoEscucha = 3;
                             escuchas();
                         }else{

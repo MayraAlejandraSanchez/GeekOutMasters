@@ -117,10 +117,6 @@ public class ModelDados {
         }
     }
 
-    public String activoInactivo(String nombreDado){
-        return nombreAEstado.get(nombreDado);
-    }
-
     public void listaAcciones(){
         for(int numero=0; numero < dados.size(); numero++){
             switch(dados.get(numero).getNumAccion()){
@@ -262,15 +258,5 @@ public class ModelDados {
         identidadDado("activos");
         identidadDado("inactivos");
         nombreAObjeto.clear();
-    }
-
-    // Estado del juego
-    public int getFlag(){
-        if(ronda < 5){
-            flag = 1; // continua el juego
-        }else{
-            flag = 2; // finaliza el juego
-        }
-        return flag;
     }
 }

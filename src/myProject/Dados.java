@@ -51,8 +51,4 @@ public class Dados {
     public String getNombreDado(){
         return nombreDado;
     }
-
-    public String getActivoInactivo(){
-        return activoInactivo;
-    }
 }
