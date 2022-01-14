@@ -357,7 +357,6 @@ public class GUI extends JFrame{
     }
 
     public void rondas(){
-        System.out.println(botonesUtilizados.get(0).getName());
         int acumulador = 0; // 42
         int acumulador2 = 0; // dragones
 
@@ -778,8 +777,6 @@ public class GUI extends JFrame{
             nombreBoton = e.getComponent().getName();
             nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
             mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
-            //panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
-            //panelDadosActivos.remove(mappingJButton("activos", nombreBoton));
             botonesUtilizados.add(mappingJButton("activos", nombreBoton));
             renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
             botones.remove(mappingJButton("activos", nombreBoton));

@@ -18,11 +18,7 @@ public class ModelDados {
     private HashMap<String, String> nombreAAccion; // Sirve para identificar la accion por medio de su nombre
     private HashMap<String, String> nombreAEstado; // Sirve para identificar cuales dados son activos e inactivos por medio de su nombre
     private HashMap<String, Dados> nombreAObjeto; // Sirve para retornar el objeto por medio de su nombre
-    private int puntaje;
-    private int ronda;
-    private int auxiliar = 0;
-    private int flag;
-    
+
     public ModelDados(){
 
         // Creacion de 10 dados
@@ -36,8 +32,6 @@ public class ModelDados {
         nombreAEstado = new HashMap<>();
         dadosInactivos = new ArrayList<>();
         dadosUtilizados = new ArrayList<>();
-        flag = 0;
-        ronda = 1;
     }
 
     // Retorna el array ingresado
@@ -117,10 +111,6 @@ public class ModelDados {
         }
     }
 
-    public String activoInactivo(String nombreDado){
-        return nombreAEstado.get(nombreDado);
-    }
-
     public void listaAcciones(){
         for(int numero=0; numero < dados.size(); numero++){
             switch(dados.get(numero).getNumAccion()){
@@ -155,7 +145,6 @@ public class ModelDados {
         }
 
         listaAcciones();
-        flag = 1;
     }
 
     public void adicionarDado(String array, String nombreDado){
@@ -262,15 +251,5 @@ public class ModelDados {
         identidadDado("activos");
         identidadDado("inactivos");
         nombreAObjeto.clear();
-    }
-
-    // Estado del juego
-    public int getFlag(){
-        if(ronda < 5){
-            flag = 1; // continua el juego
-        }else{
-            flag = 2; // finaliza el juego
-        }
-        return flag;
     }
 }
