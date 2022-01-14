@@ -29,7 +29,7 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel mano;
+    private JLabel mano, textoPuntaje;
     private JButton lanzar, ayuda, salir, creditos, botonExplicacion;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion, imageDado, fondo;
@@ -48,7 +48,7 @@ public class GUI extends JFrame{
     private int nuevoEscucha = 0; // Dependiendo del numero usa un MouseListener distinto
     private int puntaje;
     private int ronda;
-    private int estadoDelJuego;
+    private int estadoDelJuego; // 0 si sigue tirando dados, 1 si ya termino la ronda
 
     /**
      * Constructor de la clase GUI
@@ -157,9 +157,12 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         this.add(botonExplicacion,constraints);
 
-        //Imagen
+        // Imagen
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
         mano = new JLabel(imageMano);
+
+        // Puntaje
+        textoPuntaje = new JLabel();
 
         /**
          * Creacion de dados activos
@@ -361,29 +364,30 @@ public class GUI extends JFrame{
     public void rondas(){
         int acumulador = 0; // 42
         int acumulador2 = 0; // dragones
-        //boolean estado = false;
+        String resultadoPuntaje = "";
+        String rondaActual = "";
 
         if(botones.size() == 0){
             puntaje += 0;
             ronda += 1;
             estadoDelJuego = 1;
-            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-            System.out.println("Ronda: " + String.valueOf(ronda));
+            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+            rondaActual = "Ronda: " + String.valueOf(ronda);
         }else{
             if(botones.size() == 1){
                 if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
                     puntaje += 1;
                     ronda += 1;
                     estadoDelJuego = 1;
-                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                    System.out.println("Ronda: " + String.valueOf(ronda));
+                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                    rondaActual = "Ronda: " + String.valueOf(ronda);
                 }else{
                     if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
                         puntaje = 0;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                        rondaActual = "Ronda: " + String.valueOf(ronda);
                     }else{
                         if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "corazon"){
                             nuevoEscucha = 0;
@@ -393,8 +397,8 @@ public class GUI extends JFrame{
                             puntaje += 0;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                         }
                     }
                 }
@@ -419,71 +423,71 @@ public class GUI extends JFrame{
                             puntaje += 1;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 2:
                             puntaje += 3;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 3:
                             puntaje += 6;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 4:
                             puntaje += 10;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 5:
                             puntaje += 15;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 6:
                             puntaje += 21;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 7:
                             puntaje += 28;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 8:
                             puntaje += 36;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 9:
                             puntaje += 45;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         case 10:
                             puntaje += 55;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                            rondaActual = "Ronda: " + String.valueOf(ronda);
                             break;
                         default:
                             break;
@@ -493,11 +497,12 @@ public class GUI extends JFrame{
                         puntaje = 0;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
+                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
+                        rondaActual = "Ronda: " + String.valueOf(ronda);
                     }else{
                         estadoDelJuego = 0;
-                        System.out.println("Sigue jugando");
+                        resultadoPuntaje = "¡Sigue lanzando!";
+                        rondaActual = "Ronda: " + String.valueOf(ronda);
                     }
                 }
             }
@@ -507,6 +512,9 @@ public class GUI extends JFrame{
                 botones.get(boton).removeMouseListener(escucha);
             }
         }
+
+        textoPuntaje.setText(resultadoPuntaje);
+        panelPuntaje.add(textoPuntaje);
     }
 
     public void escuchas(){
@@ -795,7 +803,7 @@ public class GUI extends JFrame{
             /**
              * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
              */
-
+            String mensajeAccion = "";
             String nombreBoton = "";
             String nombreAccion = "";
 
@@ -818,6 +826,9 @@ public class GUI extends JFrame{
                 }
 
                 nuevoEscucha = 1;
+                panelPuntaje.removeAll();
+                textoPuntaje.setText("Accion mepple activado");
+                panelPuntaje.add(textoPuntaje);
                 escuchas();
             }else{
                 if(nombreAccion == "superheroe") {
@@ -826,6 +837,9 @@ public class GUI extends JFrame{
                         botones.get(boton).addMouseListener(superheroe);
                     }
 
+                    panelPuntaje.removeAll();
+                    textoPuntaje.setText("Accion superheroe activado");
+                    panelPuntaje.add(textoPuntaje);
                     nuevoEscucha = 2;
                     escuchas();
                 }else{
@@ -846,6 +860,9 @@ public class GUI extends JFrame{
                             }
 
                             nuevoEscucha = 3;
+                            panelPuntaje.removeAll();
+                            textoPuntaje.setText("Accion corazon activado");
+                            panelPuntaje.add(textoPuntaje);
                             escuchas();
                         }else{
                             if(nombreAccion == "cohete") {
@@ -855,6 +872,9 @@ public class GUI extends JFrame{
                                 }
 
                                 nuevoEscucha = 4;
+                                panelPuntaje.removeAll();
+                                textoPuntaje.setText("Accion cohete activado");
+                                panelPuntaje.add(textoPuntaje);
                                 escuchas();
                             }else{
                                 nuevoEscucha = 0;
