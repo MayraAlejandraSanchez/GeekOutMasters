@@ -38,6 +38,7 @@ public class GUI extends JFrame{
     private CambiarImagen cambiarImagen;
     private AccionSuperHeroe superheroe;
     private AccionCorazon corazon;
+    private AccionCohete cohete;
     private ModelDados modelDados;
     private ArrayList<JButton> botones;
     private ArrayList<JButton> botonesUtilizados;
@@ -81,6 +82,7 @@ public class GUI extends JFrame{
         cambiarImagen = new CambiarImagen();
         superheroe = new AccionSuperHeroe();
         corazon = new AccionCorazon();
+        cohete = new AccionCohete();
         modelDados = new ModelDados();
         botones = new ArrayList<>();
         botonesUtilizados = new ArrayList<>();
@@ -362,7 +364,9 @@ public class GUI extends JFrame{
     }
 
     public void rondas(){
-        int acumulador = 0;
+        int acumulador = 0; // 42
+        int acumulador2 = 0; // dragones
+
         if(botones.size() == 1){
             if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
                 puntaje += 1;
@@ -383,13 +387,20 @@ public class GUI extends JFrame{
                 }
             }
         }else{
+            // Cuenta el total de dados 42
             for (int boton=0; boton < botones.size(); boton++){
                 if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "42"){
                     acumulador += 1;
                 }else{
-                    acumulador += 0;
+                    if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "dragon"){
+                        acumulador2 += 1;
+                    }else{
+                        acumulador += 0;
+                        acumulador2 += 0;
+                    }
                 }
             }
+            // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
             if(acumulador == botones.size()){
                 switch (acumulador){
                     case 1:
@@ -456,7 +467,14 @@ public class GUI extends JFrame{
                         break;
                 }
             }else{
-                System.out.println("Sigue jugando");
+                if(acumulador + acumulador2 == botones.size()){
+                    puntaje = 0;
+                    ronda += 1;
+                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                    System.out.println("Ronda: " + String.valueOf(ronda));
+                }else{
+                    System.out.println("Sigue jugando");
+                }
             }
         }
     }
@@ -479,10 +497,9 @@ public class GUI extends JFrame{
                         corazon.mouseClicked(e);
                         break;
                     case 4:
-                        //cohete.mouseClicked(e);
+                        cohete.mouseClicked(e);
                         break;
-                    case 5:
-                        //42.mouseClicked(e);
+                    default:
                         break;
                 }
             }
@@ -509,6 +526,55 @@ public class GUI extends JFrame{
         }
     }
 
+    // Realiza la accion del dado cohete
+    private class AccionCohete implements MouseListener{
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            String botonSecundario = "";
+            botonSecundario = e.getComponent().getName();
+            modelDados.accionCohete(botonSecundario);
+            mappingJButton("activos", botonSecundario).setEnabled(false); // Deshabilita el boton
+            mappingJButton("activos", botonSecundario).removeMouseListener(this); // Remueve el MouseListener cohete
+            botonesInactivos.add(mappingJButton("activos", botonSecundario)); // Adiciona el boton en la lista inactivos
+            renombrarBotones("inactivos");
+            botones.remove(mappingJButton("activos", botonSecundario)); // Borra el boton de la lista activos
+            renombrarBotones("activos");
+            actualizarPanel("inactivos");
+            actualizarPanel("activos");
+
+            for(int boton=0; boton < botones.size(); boton++){
+                botones.get(boton).removeMouseListener(this);
+                botones.get(boton).addMouseListener(escucha);
+            }
+            System.out.print("hola");
+            nuevoEscucha = 0;
+            escuchas();
+            rondas();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+    }
+
+    // Realiza la accion del dado corazon
     private class AccionCorazon implements MouseListener{
 
         @Override
@@ -535,8 +601,8 @@ public class GUI extends JFrame{
                 botones.get(boton).addMouseListener(escucha);
             }
             nuevoEscucha = 0;
-            rondas();
             escuchas();
+            rondas();
         }
 
         @Override
@@ -576,8 +642,8 @@ public class GUI extends JFrame{
                 botones.get(boton).addMouseListener(escucha);
             }
             nuevoEscucha = 0;
-            rondas();
             escuchas();
+            rondas();
         }
 
         @Override
@@ -617,8 +683,8 @@ public class GUI extends JFrame{
                 botones.get(boton).addMouseListener(escucha);
             }
             nuevoEscucha = 0;
-            rondas();
             escuchas();
+            rondas();
         }
 
         @Override
@@ -642,11 +708,9 @@ public class GUI extends JFrame{
         }
     }
 
-
     /**
      * inner class that extends an Adapter Class or implements Listeners used by GUI class
      */
-
 
     // Evento principal cuando se lanza los dados y se presiona un dado
     private class Escucha implements ActionListener, MouseListener {
@@ -708,18 +772,18 @@ public class GUI extends JFrame{
             nombreBoton = e.getComponent().getName();
             nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
             mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
-            panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
-            panelDadosActivos.remove(mappingJButton("activos", nombreBoton));
-            panelDadosActivos.updateUI();
-            panelDadosUtilizados.updateUI();
+            //panelDadosUtilizados.add(mappingJButton("activos", nombreBoton)); // Agrega el boton a la zona de utilizados
+            //panelDadosActivos.remove(mappingJButton("activos", nombreBoton));
             botonesUtilizados.add(mappingJButton("activos", nombreBoton));
             renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
-            botones.remove(botones.indexOf(mappingJButton("activos", nombreBoton)));
+            botones.remove(mappingJButton("activos", nombreBoton));
             renombrarBotones("activos"); // Actualiza los nombres de los botones del ArrayList activos
             modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de activos y lo mueve a utilizados
+            actualizarPanel("activos");
+            actualizarPanel("inactivos");
             valorBotones.clear();
-            rondas();
             escuchas();
+            rondas();
 
             if(nombreAccion == "mepple") {
                 for(int boton=0; boton < botones.size(); boton++){
@@ -727,9 +791,8 @@ public class GUI extends JFrame{
                     botones.get(boton).addMouseListener(cambiarImagen);
                 }
                 nuevoEscucha = 1;
-                rondas();
                 escuchas();
-
+                //rondas();
             }else{
                 if(nombreAccion == "superheroe") {
                     for(int boton=0; boton < botones.size(); boton++){
@@ -737,13 +800,13 @@ public class GUI extends JFrame{
                         botones.get(boton).addMouseListener(superheroe);
                     }
                     nuevoEscucha = 2;
-                    rondas();
                     escuchas();
+                    //rondas();
                 }else{
                     if(nombreAccion == "dragon") {
                         nuevoEscucha = 0;
-                        rondas();
                         escuchas();
+                        //rondas();
                     }else{
                         if(nombreAccion == "corazon") {
                             for(int boton=0; boton < botones.size(); boton++){
@@ -755,8 +818,19 @@ public class GUI extends JFrame{
                                 botonesInactivos.get(boton).addMouseListener(corazon);
                             }
                             nuevoEscucha = 3;
-                            rondas();
                             escuchas();
+                            //rondas();
+                        }else{
+                            if(nombreAccion == "cohete") {
+                                for(int boton=0; boton < botones.size(); boton++){
+                                    botones.get(boton).removeMouseListener(this);
+                                    botones.get(boton).addMouseListener(cohete);
+                                }
+
+                                nuevoEscucha = 4;
+                                escuchas();
+                                //rondas();
+                            }
                         }
                     }
                 }
