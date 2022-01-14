@@ -358,7 +358,6 @@ public class GUI extends JFrame{
             }
         }
 
-        //System.out.println(valorBotones.size());
         return valorBotones.get(nombreDado);
     }
 
@@ -546,7 +545,7 @@ public class GUI extends JFrame{
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
             }
-            System.out.print("hola");
+
             nuevoEscucha = 0;
             escuchas();
             rondas();
