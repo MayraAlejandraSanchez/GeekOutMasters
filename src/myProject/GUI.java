@@ -353,121 +353,133 @@ public class GUI extends JFrame{
             }
         }
 
-        //System.out.println(valorBotones.size());
         return valorBotones.get(nombreDado);
     }
 
     public void rondas(){
+        System.out.println(botonesUtilizados.get(0).getName());
         int acumulador = 0; // 42
         int acumulador2 = 0; // dragones
 
-        if(botones.size() == 1){
-            if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
-                puntaje += 1;
-                ronda += 1;
-                System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                System.out.println("Ronda: " + String.valueOf(ronda));
-            }else{
-                if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
-                    puntaje = 0;
-                    ronda += 1;
-                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                    System.out.println("Ronda: " + String.valueOf(ronda));
-                }else{
-                    puntaje += 0;
-                    ronda += 1;
-                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                    System.out.println("Ronda: " + String.valueOf(ronda));
-                }
-            }
+        if(botones.size() == 0){
+            puntaje += 0;
+            ronda += 1;
+            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+            System.out.println("Ronda: " + String.valueOf(ronda));
         }else{
-            // Cuenta el total de dados 42
-            for (int boton=0; boton < botones.size(); boton++){
-                if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "42"){
-                    acumulador += 1;
+            if(botones.size() == 1){
+                if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
+                    puntaje += 1;
+                    ronda += 1;
+                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                    System.out.println("Ronda: " + String.valueOf(ronda));
                 }else{
-                    if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "dragon"){
-                        acumulador2 += 1;
+                    if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
+                        puntaje = 0;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
                     }else{
-                        acumulador += 0;
-                        acumulador2 += 0;
+                        if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "corazon"){
+                            nuevoEscucha = 0;
+                            escuchas();
+                        }else{
+                            puntaje += 0;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                        }
                     }
                 }
-            }
-            // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
-            if(acumulador == botones.size()){
-                switch (acumulador){
-                    case 1:
-                        puntaje += 1;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 2:
-                        puntaje += 3;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 3:
-                        puntaje += 6;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 4:
-                        puntaje += 10;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 5:
-                        puntaje += 15;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 6:
-                        puntaje += 21;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 7:
-                        puntaje += 28;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 8:
-                        puntaje += 36;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 9:
-                        puntaje += 45;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    case 10:
-                        puntaje += 55;
-                        ronda += 1;
-                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                        System.out.println("Ronda: " + String.valueOf(ronda));
-                        break;
-                    default:
-                        break;
-                }
             }else{
-                if(acumulador + acumulador2 == botones.size()){
-                    puntaje = 0;
-                    ronda += 1;
-                    System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
-                    System.out.println("Ronda: " + String.valueOf(ronda));
+                // Cuenta el total de dados 42
+                for (int boton=0; boton < botones.size(); boton++){
+                    if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "42"){
+                        acumulador += 1;
+                    }else{
+                        if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "dragon"){
+                            acumulador2 += 1;
+                        }else{
+                            acumulador += 0;
+                            acumulador2 += 0;
+                        }
+                    }
+                }
+                // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
+                if(acumulador == botones.size()){
+                    switch (acumulador){
+                        case 1:
+                            puntaje += 1;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 2:
+                            puntaje += 3;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 3:
+                            puntaje += 6;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 4:
+                            puntaje += 10;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 5:
+                            puntaje += 15;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 6:
+                            puntaje += 21;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 7:
+                            puntaje += 28;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 8:
+                            puntaje += 36;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 9:
+                            puntaje += 45;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        case 10:
+                            puntaje += 55;
+                            ronda += 1;
+                            System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                            System.out.println("Ronda: " + String.valueOf(ronda));
+                            break;
+                        default:
+                            break;
+                    }
                 }else{
-                    System.out.println("Sigue jugando");
+                    if(acumulador + acumulador2 == botones.size()){
+                        puntaje = 0;
+                        ronda += 1;
+                        System.out.println("Tu puntaje es: " + String.valueOf(puntaje));
+                        System.out.println("Ronda: " + String.valueOf(ronda));
+                    }else{
+                        System.out.println("Sigue jugando");
+                    }
                 }
             }
         }
@@ -541,7 +553,7 @@ public class GUI extends JFrame{
                 botones.get(boton).removeMouseListener(this);
                 botones.get(boton).addMouseListener(escucha);
             }
-            System.out.print("hola");
+
             nuevoEscucha = 0;
             escuchas();
             rondas();
@@ -776,8 +788,6 @@ public class GUI extends JFrame{
             actualizarPanel("activos");
             actualizarPanel("utilizados");
             valorBotones.clear();
-            escuchas();
-            rondas();
 
             if(nombreAccion == "mepple") {
                 for(int boton=0; boton < botones.size(); boton++){
@@ -786,7 +796,6 @@ public class GUI extends JFrame{
                 }
                 nuevoEscucha = 1;
                 escuchas();
-                //rondas();
             }else{
                 if(nombreAccion == "superheroe") {
                     for(int boton=0; boton < botones.size(); boton++){
@@ -795,12 +804,12 @@ public class GUI extends JFrame{
                     }
                     nuevoEscucha = 2;
                     escuchas();
-                    //rondas();
                 }else{
                     if(nombreAccion == "dragon") {
                         nuevoEscucha = 0;
+                        puntaje = 0;
                         escuchas();
-                        //rondas();
+                        rondas();
                     }else{
                         if(nombreAccion == "corazon") {
                             for(int boton=0; boton < botones.size(); boton++){
@@ -813,7 +822,6 @@ public class GUI extends JFrame{
                             }
                             nuevoEscucha = 3;
                             escuchas();
-                            //rondas();
                         }else{
                             if(nombreAccion == "cohete") {
                                 for(int boton=0; boton < botones.size(); boton++){
@@ -823,7 +831,10 @@ public class GUI extends JFrame{
 
                                 nuevoEscucha = 4;
                                 escuchas();
-                                //rondas();
+                            }else{
+                                nuevoEscucha = 0;
+                                escuchas();
+                                rondas();
                             }
                         }
                     }
