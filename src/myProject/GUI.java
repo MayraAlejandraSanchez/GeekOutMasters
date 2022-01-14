@@ -30,7 +30,7 @@ public class GUI extends JFrame{
 
     private Header headerProject;
     private JLabel mano;
-    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, nuevo;
+    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, continuarReiniciar;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje, panelRonda;
     private ImageIcon imageMano, imageExplicacion, imageDado, fondo;
     private JTextArea mensajesSalida;//,resultadosDados;
@@ -263,16 +263,16 @@ public class GUI extends JFrame{
          * Creacion de boton "Nuevo dado"
          */
 
-        nuevo = new JButton(/*Aqui va el nombre del boton*/);
-        nuevo.addActionListener(escucha);
-        nuevo.setBackground(Color.cyan);
+        continuarReiniciar = new JButton("Continuar");
+        continuarReiniciar.addActionListener(escucha);
+        continuarReiniciar.setBackground(Color.cyan);
 
         constraints.gridx=1;
         constraints.gridy= 4;
         constraints.gridwidth=3;
         constraints.fill=GridBagConstraints.CENTER;
         constraints.anchor=GridBagConstraints.CENTER;
-        add(nuevo,constraints);
+        add(continuarReiniciar,constraints);
 
         mensajesSalida= new JTextArea(2,28);
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
