@@ -30,8 +30,8 @@ public class GUI extends JFrame{
 
     private Header headerProject;
     private JLabel mano;
-    private JButton lanzar, ayuda, salir, creditos, botonExplicacion;
-    private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
+    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, nuevo;
+    private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje, panelRonda;
     private ImageIcon imageMano, imageExplicacion, imageDado, fondo;
     private JTextArea mensajesSalida;//,resultadosDados;
     private Escucha escucha;
@@ -102,6 +102,7 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.CENTER;
         this.add(headerProject,constraints);
 
+
         /**
          * Creacion de boton "Ayuda"
          */
@@ -167,7 +168,7 @@ public class GUI extends JFrame{
 
         panelDadosActivos = new JPanel();
         panelDadosActivos.setPreferredSize(new Dimension(300,300));
-        panelDadosActivos.setBorder(BorderFactory.createTitledBorder("Tira los dados"));
+        panelDadosActivos.setBorder(BorderFactory.createTitledBorder("Dados Activos"));
         panelDadosActivos.setBackground(Color.white);
         panelDadosActivos.add(mano);
 
@@ -227,7 +228,24 @@ public class GUI extends JFrame{
         add(panelPuntaje,constraints);
 
         /**
-         * Creacion de boton "tirar dados
+         *  Creación panel ronda
+         */
+        panelRonda = new JPanel();
+        panelRonda.setPreferredSize(new Dimension(200,100));
+        panelRonda.setBorder(BorderFactory.createTitledBorder("Ronda"));
+        panelRonda.setBackground(new Color(69, 201, 248, 255));
+
+        constraints.gridx=3;
+        constraints.gridy=4;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.BOTH;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(panelRonda,constraints);
+
+
+
+        /**
+         * Creacion de boton "tirar dados"
          */
 
         lanzar = new JButton("Tirar los dados");
@@ -240,6 +258,21 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.CENTER;
         constraints.anchor=GridBagConstraints.CENTER;
         add(lanzar,constraints);
+
+        /**
+         * Creacion de boton "Nuevo dado"
+         */
+
+        nuevo = new JButton(/*Aqui va el nombre del boton*/);
+        nuevo.addActionListener(escucha);
+        nuevo.setBackground(Color.cyan);
+
+        constraints.gridx=1;
+        constraints.gridy= 4;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.CENTER;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(nuevo,constraints);
 
         mensajesSalida= new JTextArea(2,28);
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
