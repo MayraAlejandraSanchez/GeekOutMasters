@@ -507,10 +507,21 @@ public class GUI extends JFrame{
                 }
             }
         }
+
         if(estadoDelJuego == 1){
             for(int boton=0; boton < botones.size(); boton++){
                 botones.get(boton).removeMouseListener(escucha);
             }
+
+            // Se limpian los ArrayList de Dados para comenzar una nueva ronda
+            modelDados.listaDados("activos").clear();
+            modelDados.listaDados("inactivos").clear();
+            modelDados.listaDados("utilizados").clear();
+
+            // Se limpian los ArrayList de botones para comenzar una nueva ronda
+            botones.clear();
+            botonesInactivos.clear();
+            botonesUtilizados.clear();
         }
 
         textoPuntaje.setText(resultadoPuntaje);
@@ -850,20 +861,26 @@ public class GUI extends JFrame{
                         rondas();
                     }else{
                         if(nombreAccion == "corazon") {
-                            for(int boton=0; boton < botones.size(); boton++){
-                                botones.get(boton).removeMouseListener(this);
-                            }
+                            if(botonesInactivos.size() > 0){
+                                for(int boton=0; boton < botones.size(); boton++){
+                                    botones.get(boton).removeMouseListener(this);
+                                }
 
-                            for(int boton=0; boton < botonesInactivos.size(); boton++){
-                                botonesInactivos.get(boton).setEnabled(true);
-                                botonesInactivos.get(boton).addMouseListener(corazon);
-                            }
+                                for(int boton=0; boton < botonesInactivos.size(); boton++){
+                                    botonesInactivos.get(boton).setEnabled(true);
+                                    botonesInactivos.get(boton).addMouseListener(corazon);
+                                }
 
-                            nuevoEscucha = 3;
-                            panelPuntaje.removeAll();
-                            textoPuntaje.setText("Accion corazon activado");
-                            panelPuntaje.add(textoPuntaje);
-                            escuchas();
+                                nuevoEscucha = 3;
+                                panelPuntaje.removeAll();
+                                textoPuntaje.setText("Accion corazon activado");
+                                panelPuntaje.add(textoPuntaje);
+                                escuchas();
+                            }else{
+                                nuevoEscucha = 0;
+                                escuchas();
+                                rondas();
+                            }
                         }else{
                             if(nombreAccion == "cohete") {
                                 for(int boton=0; boton < botones.size(); boton++){
