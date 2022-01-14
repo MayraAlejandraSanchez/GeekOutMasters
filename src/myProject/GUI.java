@@ -209,7 +209,6 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelDadosInactivos,constraints);
 
-
         /**
          * Creacion de panel puntaje
          */
@@ -252,7 +251,6 @@ public class GUI extends JFrame{
         add(mensajesSalida,constraints);
 
         // Creacion de dados
-
         modelDados.lanzamientoDados();
 
         // Inicializacion dados activos
