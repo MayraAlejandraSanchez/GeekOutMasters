@@ -202,7 +202,6 @@ public class GUI extends JFrame{
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
         panelDadosInactivos.setBackground(Color.CYAN);
 
-
         constraints.gridx=6;
         constraints.gridy=2;
         constraints.gridwidth=3;
@@ -775,7 +774,7 @@ public class GUI extends JFrame{
             renombrarBotones("activos"); // Actualiza los nombres de los botones del ArrayList activos
             modelDados.dadosUtilizados(nombreBoton); // Remueve el dado de la zona de activos y lo mueve a utilizados
             actualizarPanel("activos");
-            actualizarPanel("inactivos");
+            actualizarPanel("utilizados");
             valorBotones.clear();
             escuchas();
             rondas();

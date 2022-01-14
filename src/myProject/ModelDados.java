@@ -22,8 +22,7 @@ public class ModelDados {
     private int ronda;
     private int auxiliar = 0;
     private int flag;
-
-
+    
     public ModelDados(){
 
         // Creacion de 10 dados
