@@ -567,13 +567,13 @@ public class GUI extends JFrame{
             modelDados.lanzamientoDados();
             inicializarBotones();
 
-            if(ronda < 5){
+            if(ronda < 6){
                 continuarReiniciar.setEnabled(true);
             }else{
-                if(ronda == 5 && puntaje > 29){
-                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + "¡Has ganado!";
+                if(ronda == 6 && puntaje > 29){
+                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has ganado!";
                 }else{
-                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + "¡Has perdido!";
+                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has perdido!";
                 }
             }
         }
@@ -861,6 +861,8 @@ public class GUI extends JFrame{
                                 actualizarPanel("activos");
                                 actualizarPanel("inactivos");
                                 actualizarPanel("utilizados");
+                                textoRonda.setText("Ronda: " + String.valueOf(ronda));
+                                panelRonda.add(textoRonda);
                                 continuarReiniciar.setEnabled(false);
                                 lanzar.setEnabled(true);
                             }else{
