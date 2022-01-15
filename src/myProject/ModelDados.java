@@ -18,26 +18,13 @@ public class ModelDados {
     private HashMap<String, String> nombreAAccion; // Sirve para identificar la accion por medio de su nombre
     private HashMap<String, String> nombreAEstado; // Sirve para identificar cuales dados son activos e inactivos por medio de su nombre
     private HashMap<String, Dados> nombreAObjeto; // Sirve para retornar el objeto por medio de su nombre
-    private int puntaje;
-    private int ronda;
-    private int auxiliar = 0;
-    private int flag;
     
     public ModelDados(){
-
-        // Creacion de 10 dados
-        dados = new ArrayList<>();
-        for(int dado=0; dado < 10; dado++){
-            dados.add(new Dados());
-        }
-
         nombreAAccion = new HashMap<>();
         nombreAObjeto = new HashMap<>();
         nombreAEstado = new HashMap<>();
         dadosInactivos = new ArrayList<>();
         dadosUtilizados = new ArrayList<>();
-        flag = 0;
-        ronda = 1;
     }
 
     // Retorna el array ingresado
@@ -70,11 +57,22 @@ public class ModelDados {
 
     // Inicio del juego
     public void lanzamientoDados(){
+
+        // Creacion de 10 dados
+        dados = new ArrayList<>();
+        for(int dado=0; dado < 10; dado++){
+            dados.add(new Dados());
+        }
+
         asignacionAcciones(); // Asigna todas las acciones del ArrayList dados
         setActivo(); // Establece estado activo a todos los dados
         dadosInactivos(); // Selecciona 3 dados inactivos y los borra del Arraylist dados
         identidadDado("activos"); // Actualiza los nombres del ArrayList dados
         identidadDado("inactivos"); // Actualiza los nombres del ArrayList dadosInactivos
+
+        for(int dado=0; dado < dadosInactivos.size(); dado++){
+            System.out.println(dadosInactivos.get(dado).getNombreDado());
+        }
     }
 
     // Escoge 3 dados inactivos al azar
@@ -151,7 +149,6 @@ public class ModelDados {
         }
 
         listaAcciones();
-        flag = 1;
     }
 
     public void adicionarDado(String array, String nombreDado){
