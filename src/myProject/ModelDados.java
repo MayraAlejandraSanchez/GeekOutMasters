@@ -69,10 +69,6 @@ public class ModelDados {
         dadosInactivos(); // Selecciona 3 dados inactivos y los borra del Arraylist dados
         identidadDado("activos"); // Actualiza los nombres del ArrayList dados
         identidadDado("inactivos"); // Actualiza los nombres del ArrayList dadosInactivos
-
-        for(int dado=0; dado < dadosInactivos.size(); dado++){
-            System.out.println(dadosInactivos.get(dado).getNombreDado());
-        }
     }
 
     // Escoge 3 dados inactivos al azar
