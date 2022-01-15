@@ -30,7 +30,7 @@ public class GUI extends JFrame{
 
     private Header headerProject;
     private JLabel mano, textoPuntaje;
-    private JButton lanzar, ayuda, salir, creditos, botonExplicacion;
+    private JButton lanzar, ayuda, salir, creditos, botonExplicacion, continuarReiniciar;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje;
     private ImageIcon imageMano, imageExplicacion, imageDado, fondo;
     private JTextArea mensajesSalida;//,resultadosDados;
@@ -244,6 +244,23 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(lanzar,constraints);
 
+        /**
+         * Creacion de boton "Nuevo dado"
+         */
+
+        continuarReiniciar = new JButton("Continuar");
+        continuarReiniciar.addActionListener(escucha);
+        continuarReiniciar.setName("continuarReiniciar");
+        continuarReiniciar.setBackground(Color.cyan);
+        continuarReiniciar.setEnabled(false);
+
+        constraints.gridx=1;
+        constraints.gridy= 4;
+        constraints.gridwidth=3;
+        constraints.fill=GridBagConstraints.CENTER;
+        constraints.anchor=GridBagConstraints.CENTER;
+        add(continuarReiniciar,constraints);
+
         mensajesSalida= new JTextArea(2,28);
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
         mensajesSalida.setBorder(BorderFactory.createTitledBorder("Atención: "));
@@ -259,7 +276,21 @@ public class GUI extends JFrame{
         // Creacion de dados
 
         modelDados.lanzamientoDados();
+        inicializarBotones();
+    }
 
+    /**
+     * Main process of the Java program
+     * @param args Object used in order to send input data from command line when
+     *             the program is execute by console.
+     */
+    public static void main(String[] args){
+        EventQueue.invokeLater(() -> {
+            myProject.GUI miProjectGUI = new myProject.GUI();
+        });
+    }
+
+    public void inicializarBotones(){
         // Inicializacion dados activos
         for(int dado=0; dado < modelDados.listaDados("activos").size(); dado++){
             botones.add(new JButton());
@@ -284,17 +315,6 @@ public class GUI extends JFrame{
             botonesInactivos.get(dado).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
             panelDadosInactivos.add(botonesInactivos.get(dado));
         }
-    }
-
-    /**
-     * Main process of the Java program
-     * @param args Object used in order to send input data from command line when
-     *             the program is execute by console.
-     */
-    public static void main(String[] args){
-        EventQueue.invokeLater(() -> {
-            myProject.GUI miProjectGUI = new myProject.GUI();
-        });
     }
 
     public void actualizarPanel(String nombrePanel){
@@ -522,6 +542,10 @@ public class GUI extends JFrame{
             botones.clear();
             botonesInactivos.clear();
             botonesUtilizados.clear();
+
+            modelDados.lanzamientoDados();
+            inicializarBotones();
+            continuarReiniciar.setEnabled(true);
         }
 
         textoPuntaje.setText(resultadoPuntaje);
@@ -772,6 +796,8 @@ public class GUI extends JFrame{
                 * Quita la mano que esta al inicio del juego
                 */
                 mano.setVisible(false);
+                lanzar.setEnabled(false);
+
                 /**
                  * Aparecen los dados activos e inactivos
                  */
@@ -796,7 +822,15 @@ public class GUI extends JFrame{
                             imageExplicacion = new ImageIcon(getClass().getResource("/utilidad/explicacion.png"));
                             JOptionPane.showMessageDialog(null,"","Explicacion de cada cara del dado", JOptionPane.PLAIN_MESSAGE, imageExplicacion);
                         }else{
-                            System.exit(0);
+                            if(e.getSource() == continuarReiniciar){
+                                actualizarPanel("activos");
+                                actualizarPanel("inactivos");
+                                actualizarPanel("utilizados");
+                                continuarReiniciar.setEnabled(false);
+                                lanzar.setEnabled(true);
+                            }else{
+                                System.exit(0);
+                            }
                         }
                     }
                 }
@@ -814,7 +848,7 @@ public class GUI extends JFrame{
             /**
              * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
              */
-            String mensajeAccion = "";
+
             String nombreBoton = "";
             String nombreAccion = "";
 
