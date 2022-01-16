@@ -274,7 +274,8 @@ public class GUI extends JFrame{
          * Creacion de boton "Nuevo dado"
          */
 
-        continuarReiniciar = new JButton("Continuar");
+        continuarReiniciar = new JButton();
+        continuarReiniciar.setText("Continuar ronda");
         continuarReiniciar.addActionListener(escucha);
         continuarReiniciar.setName("continuarReiniciar");
         continuarReiniciar.setBackground(Color.cyan);
@@ -555,13 +556,21 @@ public class GUI extends JFrame{
             textoPuntaje.setText(resultadoPuntaje);
             inicializarBotones();
 
-            if(ronda < 6){
+            if(ronda < 6 && puntaje < 29){
                 continuarReiniciar.setEnabled(true);
             }else{
-                if(ronda == 6 && puntaje > 29){
+                if(ronda < 6 && puntaje > 29){
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has ganado!";
+                    puntaje = 0;
+                    ronda = 1;
+                    continuarReiniciar.setText("Jugar de nuevo");
+                    continuarReiniciar.setEnabled(true);
                 }else{
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has perdido!";
+                    puntaje = 0;
+                    ronda = 1;
+                    continuarReiniciar.setText("Jugar de nuevo");
+                    continuarReiniciar.setEnabled(true);
                 }
             }
         }
@@ -817,6 +826,7 @@ public class GUI extends JFrame{
 
                 textoRonda.setText("Ronda: " + String.valueOf(ronda));
                 panelRonda.add(textoRonda);
+                continuarReiniciar.setText("Continuar ronda");
                 textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
                 textoPuntaje.setText("¡Lanza un dado!");
 
@@ -850,6 +860,7 @@ public class GUI extends JFrame{
                                 actualizarPanel("inactivos");
                                 actualizarPanel("utilizados");
                                 textoRonda.setText("Ronda: " + String.valueOf(ronda));
+                                textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
                                 textoPuntaje.setText(null);
                                 continuarReiniciar.setEnabled(false);
                                 lanzar.setEnabled(true);
