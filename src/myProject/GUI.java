@@ -29,7 +29,7 @@ public class GUI extends JFrame{
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
-    private JLabel mano, textoPuntaje, textoRonda;
+    private JLabel mano, textoPuntaje, textoPuntajeTotal, textoRonda;
     private JButton lanzar, ayuda, salir, creditos, botonExplicacion, continuarReiniciar;
     private JPanel panelDadosActivos, panelDadosUtilizados, panelDadosInactivos, panelPuntaje, panelRonda;
     private ImageIcon imageMano, imageExplicacion, imageDado;
@@ -63,7 +63,6 @@ public class GUI extends JFrame{
         this.setResizable(true);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     /**
@@ -162,8 +161,13 @@ public class GUI extends JFrame{
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
         mano = new JLabel(imageMano);
 
-        // Puntaje
+        // Puntaje ronda
         textoPuntaje = new JLabel();
+        textoPuntaje.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Puntaje total
+        textoPuntajeTotal = new JLabel();
+        textoPuntajeTotal.setHorizontalAlignment(SwingConstants.CENTER);
 
         // Ronda
         textoRonda = new JLabel();
@@ -222,9 +226,12 @@ public class GUI extends JFrame{
          */
 
         panelPuntaje = new JPanel();
+        panelPuntaje.setLayout(new GridLayout(0,1));
         panelPuntaje.setPreferredSize(new Dimension(200,100));
         panelPuntaje.setBorder(BorderFactory.createTitledBorder("Puntaje"));
         panelPuntaje.setBackground(new Color(112, 215, 163, 255));
+        panelPuntaje.add(textoPuntajeTotal);
+        panelPuntaje.add(textoPuntaje);
 
         constraints.gridx=3;
         constraints.gridy=3;
@@ -247,8 +254,6 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.BOTH;
         constraints.anchor=GridBagConstraints.CENTER;
         add(panelRonda,constraints);
-
-
 
         /**
          * Creacion de boton "tirar dados"
@@ -295,7 +300,6 @@ public class GUI extends JFrame{
         add(mensajesSalida,constraints);
 
         // Creacion de dados
-
         modelDados.lanzamientoDados();
         inicializarBotones();
     }
@@ -403,147 +407,129 @@ public class GUI extends JFrame{
     }
 
     public void rondas(){
-        int acumulador = 0; // 42
-        int acumulador2 = 0; // dragones
+        int dados42 = 0; // 42
+        int dadosDragon = 0; // dragones
+        int puntajeRonda = 0;
         String resultadoPuntaje = "";
-        String rondaActual = "";
 
         if(botones.size() == 0){
-            puntaje += 0;
+            puntajeRonda = 0;
+            puntaje += puntajeRonda;
             ronda += 1;
             estadoDelJuego = 1;
-            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-            //rondaActual = "Ronda: " + String.valueOf(ronda);
+            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
         }else{
             if(botones.size() == 1){
-                if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
-                    puntaje += 1;
-                    ronda += 1;
-                    estadoDelJuego = 1;
-                    resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                    //rondaActual = "Ronda: " + String.valueOf(ronda);
+                if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "corazon"){
+                    nuevoEscucha = 0;
+                    estadoDelJuego = 0;
+                    resultadoPuntaje = "¡Sigue lanzando!";
+                    escuchas();
                 }else{
-                    if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
-                        puntaje = 0;
+                    if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
+                        puntajeRonda = 1;
+                        puntaje += puntajeRonda;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                        //rondaActual = "Ronda: " + String.valueOf(ronda);
+                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }else{
-                        if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "corazon"){
-                            nuevoEscucha = 0;
-                            estadoDelJuego = 0;
-                            escuchas();
-                        }else{
-                            puntaje += 0;
-                            ronda += 1;
-                            estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
-                        }
+                        puntajeRonda = 0;
+                        puntaje += puntajeRonda;
+                        ronda += 1;
+                        estadoDelJuego = 1;
+                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }
                 }
             }else{
-                // Cuenta el total de dados 42
+                // Cuenta el total de dados 42, dragones o si el ultimo dado es un corazon
                 for (int boton=0; boton < botones.size(); boton++){
                     if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "42"){
-                        acumulador += 1;
+                        dados42 += 1;
                     }else{
                         if(modelDados.getAccionDado(botones.get(boton).getName(), "activos") == "dragon"){
-                            acumulador2 += 1;
-                        }else{
-                            acumulador += 0;
-                            acumulador2 += 0;
+                            dadosDragon += 1;
                         }
                     }
                 }
                 // Si la cantidad de dados 42 es igual al tamaño del ArrayList, gana
-                if(acumulador == botones.size()){
-                    switch (acumulador){
-                        case 1:
-                            puntaje += 1;
-                            ronda += 1;
-                            estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
-                            break;
+                if(dados42 == botones.size()){
+                    switch (dados42){
                         case 2:
-                            puntaje += 3;
+                            puntajeRonda = 3;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 3:
-                            puntaje += 6;
+                            puntajeRonda = 6;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 4:
-                            puntaje += 10;
+                            puntajeRonda = 10;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 5:
-                            puntaje += 15;
+                            puntajeRonda = 15;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 6:
-                            puntaje += 21;
+                            puntajeRonda = 21;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 7:
-                            puntaje += 28;
+                            puntajeRonda = 28;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 8:
-                            puntaje += 36;
+                            puntajeRonda = 36;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 9:
-                            puntaje += 45;
+                            puntajeRonda = 45;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 10:
-                            puntaje += 55;
+                            puntajeRonda = 55;
+                            puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                            //rondaActual = "Ronda: " + String.valueOf(ronda);
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         default:
                             break;
                     }
                 }else{
-                    if(acumulador + acumulador2 == botones.size()){
+                    if(dados42 + dadosDragon == botones.size()){
+                        puntajeRonda = 0;
                         puntaje = 0;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje);
-                        //rondaActual = "Ronda: " + String.valueOf(ronda);
+                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }else{
                         estadoDelJuego = 0;
                         resultadoPuntaje = "¡Sigue lanzando!";
-                        //rondaActual = "Ronda: " + String.valueOf(ronda);
                     }
                 }
             }
@@ -565,6 +551,8 @@ public class GUI extends JFrame{
             botonesUtilizados.clear();
 
             modelDados.lanzamientoDados();
+            textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
+            textoPuntaje.setText(resultadoPuntaje);
             inicializarBotones();
 
             if(ronda < 6){
@@ -579,7 +567,6 @@ public class GUI extends JFrame{
         }
 
         textoPuntaje.setText(resultadoPuntaje);
-        panelPuntaje.add(textoPuntaje);
     }
 
     public void escuchas(){
@@ -828,9 +815,10 @@ public class GUI extends JFrame{
                 mano.setVisible(false);
                 lanzar.setEnabled(false);
 
-                // Aparece la ronda actual
                 textoRonda.setText("Ronda: " + String.valueOf(ronda));
                 panelRonda.add(textoRonda);
+                textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
+                textoPuntaje.setText("¡Lanza un dado!");
 
 
                 /**
@@ -862,7 +850,7 @@ public class GUI extends JFrame{
                                 actualizarPanel("inactivos");
                                 actualizarPanel("utilizados");
                                 textoRonda.setText("Ronda: " + String.valueOf(ronda));
-                                panelRonda.add(textoRonda);
+                                textoPuntaje.setText(null);
                                 continuarReiniciar.setEnabled(false);
                                 lanzar.setEnabled(true);
                             }else{
@@ -908,9 +896,7 @@ public class GUI extends JFrame{
                 }
 
                 nuevoEscucha = 1;
-                panelPuntaje.removeAll();
                 textoPuntaje.setText("Accion mepple activado");
-                panelPuntaje.add(textoPuntaje);
                 escuchas();
             }else{
                 if(nombreAccion == "superheroe") {
@@ -919,9 +905,7 @@ public class GUI extends JFrame{
                         botones.get(boton).addMouseListener(superheroe);
                     }
 
-                    panelPuntaje.removeAll();
                     textoPuntaje.setText("Accion superheroe activado");
-                    panelPuntaje.add(textoPuntaje);
                     nuevoEscucha = 2;
                     escuchas();
                 }else{
@@ -943,9 +927,7 @@ public class GUI extends JFrame{
                                 }
 
                                 nuevoEscucha = 3;
-                                panelPuntaje.removeAll();
                                 textoPuntaje.setText("Accion corazon activado");
-                                panelPuntaje.add(textoPuntaje);
                                 escuchas();
                             }else{
                                 nuevoEscucha = 0;
@@ -960,9 +942,7 @@ public class GUI extends JFrame{
                                 }
 
                                 nuevoEscucha = 4;
-                                panelPuntaje.removeAll();
                                 textoPuntaje.setText("Accion cohete activado");
-                                panelPuntaje.add(textoPuntaje);
                                 escuchas();
                             }else{
                                 nuevoEscucha = 0;
