@@ -891,6 +891,7 @@ public class GUI extends JFrame{
             nombreBoton = e.getComponent().getName();
             nombreAccion = modelDados.getAccionDado(nombreBoton, "activos");
             mappingJButton("activos", nombreBoton).setEnabled(false); // Deshabilita el boton despues de presionarlo
+            mappingJButton("activos", nombreBoton).removeMouseListener(this);
             botonesUtilizados.add(mappingJButton("activos", nombreBoton));
             renombrarBotones("utilizados"); // Actualiza los nombres de los botones del ArrayList utilizados
             botones.remove(mappingJButton("activos", nombreBoton));

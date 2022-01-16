@@ -48,6 +48,7 @@ public class ModelDados {
         }
 
         dadosUtilizados.add(nombreAObjeto.get(nombreDado));
+        nombreAObjeto.get(nombreDado).setActivoInactivo("utilizado");
         dados.remove(nombreAObjeto.get(nombreDado));
         identidadDado("activos");
         identidadDado("utilizados");
