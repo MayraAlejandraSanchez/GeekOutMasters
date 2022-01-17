@@ -3,10 +3,10 @@ package myProject;
 import java.util.Random;
 
 /**
- * Clase Ddos genera un numero del 1 al 6
+ * Clase Dados genera un numero del 1 al 6
  * @autor Mayra Alejandra Sanchez - mayra.alejandra.sanchez@correounivalle.edu.co - 202040506
  * @autor Brayan Stiven Sanchez - brayan.sanchez.leon@correounivalle.edu.co - 202043554
- * @version 1.0.0 fecha 3/1/2022
+ * @version 1.0.0 fecha 17/1/2022
  */
 public class Dados {
     private int numeroAccion;
@@ -17,7 +17,9 @@ public class Dados {
     public Dados(){
     }
 
-    // Asigna un numero aleatorio para tener una accion
+    /**
+     * Asigna un numero aleatorio para tener una accion
+     */
     public void setNumAccion(){
         int numeroAleatorio;
         Random aleatorio = new Random();
@@ -29,7 +31,10 @@ public class Dados {
         }
     }
 
-    // Se asigna un numero manualmente para tener una accion
+    /**
+     * Se asigna un numero manualmente para tener una accion
+     * @param numero
+     */
     public void setNumAccionNoAleatorio(int numero){
         numeroAccion = numero;
     }

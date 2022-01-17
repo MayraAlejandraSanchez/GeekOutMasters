@@ -2,7 +2,7 @@
  *Clase principal
  * @autor Mayra Alejandra Sanchez - mayra.alejandra.sanchez@correounivalle.edu.co - 202040506
  * @autor Brayan Stiven Sanchez - brayan.sanchez.leon@correounivalle.edu.co - 202043554
- * @version 1.0.0 fecha 3/1/2022
+ * @version 1.0.0 fecha 17/1/2022
  */
 package myProject;
 
@@ -17,9 +17,9 @@ import java.util.HashMap;
 
 public class GUI extends JFrame{
 
-    public  static final String CREDITOS="CREDITOS\n" +
-            "BRAYAN STIVEN SANCHEZ LEON\n" +
-            "MAYRA ALEJANDRA SANCHEZ SALINAS";
+    public  static final String CREDITOS="CRÉDITOS\n" +
+            "-> BRAYAN STIVEN SANCHEZ LEON\n" +
+            "-> MAYRA ALEJANDRA SANCHEZ SALINAS";
 
     public  static final String AYUDA="-> De los 10 dados que trae el juego se toman 3 y se colocan en el sector de \"Dados Inactivos\". Los otros 7\n" +
             "dados se tiran y pasan a ser los \"Dados Activos\".\n" +
@@ -57,7 +57,7 @@ public class GUI extends JFrame{
     public GUI(){
         initGUI();
 
-        //Configuracion por defecto del JFrame
+        //Configuración por defecto del JFrame
         this.setTitle("Geek Out Masters");
         this.setUndecorated(true);
         this.pack();
@@ -95,7 +95,9 @@ public class GUI extends JFrame{
 
         //Configurar JComponents
 
-        //Titulo
+        /**
+         * Creacion del titulo
+         */
         headerProject = new Header("Geek Out Masters", Color.BLACK);
 
         constraints.gridx=3;
@@ -120,9 +122,9 @@ public class GUI extends JFrame{
         this.add(ayuda,constraints);
 
         /**
-         * Creacion de boton "Creditos"
+         * Creacion de boton "Créditos"
          */
-        creditos = new JButton(" Creditos ");
+        creditos = new JButton(" Créditos ");
         creditos.addActionListener(escucha);
         creditos.setBackground(Color.yellow);
         constraints.gridx=2;
@@ -147,7 +149,7 @@ public class GUI extends JFrame{
         this.add(salir,constraints);
 
         /**
-         * Creacion de boton "Explicacion dados"
+         * Creacion de boton "Explicación dados"
          */
 
         botonExplicacion = new JButton("Explicación dados");
@@ -160,7 +162,7 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         this.add(botonExplicacion,constraints);
 
-        // Imagen
+        // Imagen de la mano empuñada
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
         mano = new JLabel();
         mano.setIcon(imageMano);
@@ -177,7 +179,7 @@ public class GUI extends JFrame{
         textoRonda = new JLabel();
 
         /**
-         * Creacion de dados activos
+         * Creacion de panel dados activos
          */
 
         panelDadosActivos = new JPanel();
@@ -245,7 +247,7 @@ public class GUI extends JFrame{
         add(panelPuntaje,constraints);
 
         /**
-         *  Creación panel ronda
+         *  Creacion de panel ronda
          */
         panelRonda = new JPanel();
         panelRonda.setPreferredSize(new Dimension(200,100));
@@ -292,6 +294,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(continuarReiniciar,constraints);
 
+        /**
+         * Creación mensaje de atención
+         */
         mensajesSalida= new JTextArea(2,28);
         mensajesSalida.setText("Usa el botón (help) para ver las reglas del juego");
         mensajesSalida.setBorder(BorderFactory.createTitledBorder("Atención: "));
@@ -304,7 +309,7 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
 
-        // Creacion de dados
+        // Creación de dados
         modelDados.lanzamientoDados();
         inicializarBotones();
     }
@@ -320,6 +325,9 @@ public class GUI extends JFrame{
         });
     }
 
+    /**
+     * Funciona para inicializar los botones activos e inactivos en sus zonas correspondientes
+     */
     public void inicializarBotones(){
         // Inicializacion dados activos
         for(int dado=0; dado < modelDados.listaDados("activos").size(); dado++){
@@ -347,6 +355,10 @@ public class GUI extends JFrame{
         }
     }
 
+    /**
+     * Funcion creada para actualizar los paneles al hacer uso de los botones
+     * @param nombrePanel
+     */
     public void actualizarPanel(String nombrePanel){
         if(nombrePanel == "activos"){
             panelDadosActivos.removeAll();
@@ -372,7 +384,10 @@ public class GUI extends JFrame{
         }
     }
 
-    // Renombra los botones cada que se elimine o agregue un elemento de algun ArrayList
+    /**
+     * Renombra los botones cada que se elimine o agregue un elemento de algun ArrayList
+     * @param nombreArray
+     */
     public void renombrarBotones(String nombreArray){
         if(nombreArray == "activos"){
             for(int boton=0; boton < botones.size(); boton++){
@@ -391,7 +406,12 @@ public class GUI extends JFrame{
         }
     }
 
-    // Hace pares de nombre y JButton dependiendo del ArrayList y me retorna el JButton
+    /**
+     * Hace pares de nombre y JButton dependiendo del ArrayList y me retorna el JButton
+     * @param nombreArray
+     * @param nombreDado
+     * @return JButton
+     */
     public JButton mappingJButton(String nombreArray, String nombreDado){
         if(nombreArray == "activos"){
             for(int boton=0; boton < botones.size(); boton++){
@@ -412,6 +432,9 @@ public class GUI extends JFrame{
         return valorBotones.get(nombreDado);
     }
 
+    /**
+     * Determina la ronda actual, el puntaje de cada ronda y el puntaje total
+     */
     public void rondas(){
         int dados42 = 0; // 42
         int dadosDragon = 0; // dragones
@@ -572,7 +595,7 @@ public class GUI extends JFrame{
             inicializarBotones();
 
             if(ronda < 6 && puntaje < 29){
-                continuarReiniciar.setEnabled(true); // Solo habilita el boton para continuar a la siguiente ronda
+                continuarReiniciar.setEnabled(true); // Solo habilita el botón para continuar a la siguiente ronda
             }else{
                 if(ronda < 6 && puntaje > 29){
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has ganado!";
@@ -591,6 +614,9 @@ public class GUI extends JFrame{
         textoPuntaje.setText(resultadoPuntaje);
     }
 
+    /**
+     * Determina cual evento se esta invocando
+     */
     public void escuchas(){
         class GetEscuchas implements MouseListener{
             @Override
@@ -638,7 +664,9 @@ public class GUI extends JFrame{
         }
     }
 
-    // Realiza la accion del dado cohete
+    /**
+     * Realiza la accion del dado cohete
+     */
     private class AccionCohete implements MouseListener{
 
         @Override
@@ -686,7 +714,9 @@ public class GUI extends JFrame{
         }
     }
 
-    // Realiza la accion del dado corazon
+    /**
+     * Realiza la accion del dado corazon
+     */
     private class AccionCorazon implements MouseListener{
 
         @Override
@@ -738,7 +768,9 @@ public class GUI extends JFrame{
         }
     }
 
-    // Realiza la accion del dado Superheroe
+    /**
+     * Realiza la accion del dado Superhéroe
+     */
     private class AccionSuperHeroe implements MouseListener{
 
         @Override
@@ -788,7 +820,9 @@ public class GUI extends JFrame{
         }
     }
 
-    // Realiza la accion del dado Mepple
+    /**
+     * Realiza la accion del dado Mepple
+     */
     private class CambiarImagen implements MouseListener{
 
         @Override
@@ -830,19 +864,17 @@ public class GUI extends JFrame{
     }
 
     /**
-     * inner class that extends an Adapter Class or implements Listeners used by GUI class
+     * Evento principal cuando se lanza los dados y se presiona un dado
      */
-
-    // Evento principal cuando se lanza los dados y se presiona un dado
     private class Escucha implements ActionListener, MouseListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
 
             if(e.getSource()==lanzar){
-                /**
-                * Quita la mano que esta al inicio del juego
-                */
+
+                //Quita la mano que esta al inicio del juego
+
                 mano.setVisible(false);
                 lanzar.setEnabled(false);
 
@@ -904,9 +936,7 @@ public class GUI extends JFrame{
         @Override
         public void mouseClicked(MouseEvent e) {
 
-            /**
-             * Aqui empieza el juego, ya que al dar click en un dado se va a jugar con este
-             */
+            //Aquí empieza el juego, ya que al dar clic en un dado se va a jugar con este
 
             String nombreBoton = "";
             String nombreAccion = "";

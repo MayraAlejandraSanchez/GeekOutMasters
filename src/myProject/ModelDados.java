@@ -7,7 +7,7 @@ import java.util.Random;
  * Clase ModelDados
  * @autor Mayra Alejandra Sanchez - mayra.alejandra.sanchez@correounivalle.edu.co - 202040506
  * @autor Brayan Stiven Sanchez - brayan.sanchez.leon@correounivalle.edu.co - 202043554
- * @version 1.0.0 fecha 3/1/2022
+ * @version 1.0.0 fecha 17/1/2022
  */
 public class ModelDados {
 
@@ -26,8 +26,11 @@ public class ModelDados {
         dadosInactivos = new ArrayList<>();
         dadosUtilizados = new ArrayList<>();
     }
-
-    // Retorna el array ingresado
+    /**
+     * @param nombreArray
+     * Retorna el array ingresado
+     * @return auxiliar
+     */
     public ArrayList listaDados(String nombreArray){
         ArrayList<Dados> auxiliar;
         if(nombreArray == "activos"){
@@ -42,6 +45,10 @@ public class ModelDados {
         return auxiliar;
     }
 
+    /**
+     * Remueve un dado de la zona de dados activos y lo adiciona a la zona de utilizados
+     * @param nombreDado
+     */
     public void dadosUtilizados(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
             nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
@@ -56,15 +63,16 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
-    // Inicio del juego
+    /**
+     * Inicio del juego
+     */
     public void lanzamientoDados(){
 
-        // Creacion de 10 dados
+        //Creación de los 10 dados
         dados = new ArrayList<>();
         for(int dado=0; dado < 10; dado++){
             dados.add(new Dados());
         }
-
         asignacionAcciones(); // Asigna todas las acciones del ArrayList dados
         setActivo(); // Establece estado activo a todos los dados
         dadosInactivos(); // Selecciona 3 dados inactivos y los borra del Arraylist dados
@@ -72,7 +80,9 @@ public class ModelDados {
         identidadDado("inactivos"); // Actualiza los nombres del ArrayList dadosInactivos
     }
 
-    // Escoge 3 dados inactivos al azar
+    /**
+     * Escoge 3 dados inactivos al azar
+     */
     public void dadosInactivos(){
         for(int inactivo=0; inactivo < 3; inactivo++){
             Random random = new Random();
@@ -86,7 +96,10 @@ public class ModelDados {
         identidadDado("inactivos");
     }
 
-    // Asigna el nombre a cada dado dependiendo del ArrayList
+    /**
+     * Asigna el nombre a cada dado dependiendo del ArrayList
+     * @param array
+     */
     public void identidadDado(String array){
         if(array == "activos"){
             for(int dado=0; dado < dados.size(); dado++){
@@ -105,13 +118,18 @@ public class ModelDados {
         }
     }
 
-    // Establece el estado inicial (activo) del ArrayList dados
+    /**
+     * Establece el estado inicial (activo) del ArrayList dados
+     */
     public void setActivo(){
         for(int dado=0; dado < dados.size(); dado++){
             dados.get(dado).setActivoInactivo("activo");
         }
     }
 
+    /**
+     * Lista de acciones de los dados
+     */
     public void listaAcciones(){
         for(int numero=0; numero < dados.size(); numero++){
             switch(dados.get(numero).getNumAccion()){
@@ -139,7 +157,9 @@ public class ModelDados {
         }
     }
 
-    // Asigna las acciones a cada dado
+    /**
+     * Asigna las acciones a cada dado
+     */
     public void asignacionAcciones(){
         for(int i=0; i < dados.size(); i++){
             dados.get(i).setNumAccion();
@@ -148,6 +168,11 @@ public class ModelDados {
         listaAcciones();
     }
 
+    /**
+     * Adiciona los dados al array listaDados
+     * @param array
+     * @param nombreDado
+     */
     public void adicionarDado(String array, String nombreDado){
         for(int dado=0; dado < dadosInactivos.size(); dado++){
             nombreAObjeto.put(dadosInactivos.get(dado).getNombreDado(), dadosInactivos.get(dado));
@@ -160,7 +185,12 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
-    // Retorna la accion de un dado, dependiendo del array donde este
+    /**
+     * Retorna la acción de un dado, dependiendo del array donde este
+     * @param _nombreDado
+     * @param nombreArray
+     * @return accionDado
+     */
     public String getAccionDado(String _nombreDado, String nombreArray){
         String accionDado = "";
         if(nombreArray == "activos"){
@@ -174,11 +204,13 @@ public class ModelDados {
             }
             accionDado = nombreAAccion.get(_nombreDado);
         }
-
         return accionDado;
     }
 
-    // Busca el dado seleccionado por su numero y lo tira nuevamente
+    /**
+     * Busca el dado seleccionado por su numero y lo tira nuevamente
+     * @param nombreDado
+     */
     public void accionMepple(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
             nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
@@ -189,6 +221,10 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
+    /**
+     * Si presiona la accion del superheroe entonces al tocar otro dado, se gira a su cara contraria
+     * @param nombreDado
+     */
     public void accionSuperHeroe(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
             nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
@@ -226,6 +262,10 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
+    /**
+     * Al presionar la accion corazon se puede utilizar uno de los dados inactivos
+     * @param nombreDado
+     */
     public void accionCorazon(String nombreDado){
         for(int dado=0; dado < dadosInactivos.size(); dado++){
             nombreAObjeto.put(dadosInactivos.get(dado).getNombreDado(), dadosInactivos.get(dado));
@@ -241,6 +281,10 @@ public class ModelDados {
         nombreAObjeto.clear();
     }
 
+    /**
+     * Al presionar la acción del cohete puede pasar uno de los dados activos a ser inactivo
+     * @param nombreDado
+     */
     public void accionCohete(String nombreDado){
         for(int dado=0; dado < dados.size(); dado++){
             nombreAObjeto.put(dados.get(dado).getNombreDado(), dados.get(dado));
