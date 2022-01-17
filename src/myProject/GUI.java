@@ -434,11 +434,19 @@ public class GUI extends JFrame{
                         estadoDelJuego = 1;
                         resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }else{
-                        puntajeRonda = 0;
-                        puntaje += puntajeRonda;
-                        ronda += 1;
-                        estadoDelJuego = 1;
-                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
+                        if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
+                            puntajeRonda = 0;
+                            puntaje = puntajeRonda;
+                            ronda += 1;
+                            estadoDelJuego = 1;
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
+                        }else{
+                            puntajeRonda = 0;
+                            puntaje += puntajeRonda;
+                            ronda += 1;
+                            estadoDelJuego = 1;
+                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
+                        }
                     }
                 }
             }else{
@@ -561,17 +569,13 @@ public class GUI extends JFrame{
             }else{
                 if(ronda < 6 && puntaje > 29){
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has ganado!";
-                    puntaje = 0;
-                    ronda = 1;
-                    continuarReiniciar.setText("Jugar de nuevo");
-                    continuarReiniciar.setEnabled(true);
                 }else{
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has perdido!";
-                    puntaje = 0;
-                    ronda = 1;
-                    continuarReiniciar.setText("Jugar de nuevo");
-                    continuarReiniciar.setEnabled(true);
                 }
+                puntaje = 0;
+                ronda = 1;
+                continuarReiniciar.setText("Jugar de nuevo");
+                continuarReiniciar.setEnabled(true);
             }
         }
 
