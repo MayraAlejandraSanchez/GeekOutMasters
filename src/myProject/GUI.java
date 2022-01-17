@@ -46,8 +46,9 @@ public class GUI extends JFrame{
     private HashMap<String, JButton> valorBotones;
     private HashMap<JButton, String> botonANombre;
     private int nuevoEscucha = 0; // Dependiendo del numero usa un MouseListener distinto
-    private int puntaje;
+    private int puntaje, puntajeRonda;
     private int ronda;
+    private int dragon;
     private int estadoDelJuego; // 0 si sigue tirando dados, 1 si ya termino la ronda
 
     /**
@@ -87,7 +88,9 @@ public class GUI extends JFrame{
         valorBotones = new HashMap<>();
         botonANombre = new HashMap<>();
         puntaje = 0;
+        puntajeRonda = 0;
         ronda = 1;
+        dragon = 0; // 1 si se presiono el dragon, de lo contrario 0
         estadoDelJuego = 0;
 
         //Configurar JComponents
@@ -159,7 +162,8 @@ public class GUI extends JFrame{
 
         // Imagen
         imageMano = new ImageIcon(getClass().getResource("/utilidad/mano apretada.png"));
-        mano = new JLabel(imageMano);
+        mano = new JLabel();
+        mano.setIcon(imageMano);
 
         // Puntaje ronda
         textoPuntaje = new JLabel();
@@ -346,6 +350,7 @@ public class GUI extends JFrame{
     public void actualizarPanel(String nombrePanel){
         if(nombrePanel == "activos"){
             panelDadosActivos.removeAll();
+            panelDadosActivos.add(mano);
             for(int boton=0; boton < botones.size(); boton++){
                 panelDadosActivos.add(botones.get(boton));
             }
@@ -410,21 +415,22 @@ public class GUI extends JFrame{
     public void rondas(){
         int dados42 = 0; // 42
         int dadosDragon = 0; // dragones
-        int puntajeRonda = 0;
+        int seguirLanzando = 0; // 1 si sigue lanzando, de lo contrario 0
         String resultadoPuntaje = "";
 
+        // Mensaje cuando no hay dados activos en el array
         if(botones.size() == 0){
             puntajeRonda = 0;
             puntaje += puntajeRonda;
             ronda += 1;
             estadoDelJuego = 1;
-            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
         }else{
+            // Mensaje cuando solo hay un dado activo en el array
             if(botones.size() == 1){
                 if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "corazon"){
                     nuevoEscucha = 0;
                     estadoDelJuego = 0;
-                    resultadoPuntaje = "¡Sigue lanzando!";
+                    seguirLanzando = 1;
                     escuchas();
                 }else{
                     if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "42"){
@@ -432,20 +438,17 @@ public class GUI extends JFrame{
                         puntaje += puntajeRonda;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }else{
                         if(modelDados.getAccionDado(botones.get(0).getName(), "activos") == "dragon"){
                             puntajeRonda = 0;
                             puntaje = puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                         }else{
                             puntajeRonda = 0;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                         }
                     }
                 }
@@ -468,80 +471,84 @@ public class GUI extends JFrame{
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 3:
                             puntajeRonda = 6;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 4:
                             puntajeRonda = 10;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 5:
                             puntajeRonda = 15;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 6:
                             puntajeRonda = 21;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 7:
                             puntajeRonda = 28;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 8:
                             puntajeRonda = 36;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 9:
                             puntajeRonda = 45;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         case 10:
                             puntajeRonda = 55;
                             puntaje += puntajeRonda;
                             ronda += 1;
                             estadoDelJuego = 1;
-                            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                             break;
                         default:
                             break;
                     }
                 }else{
+                    // Si la cantidad de dragones y 42 es igual al tamaño del array
                     if(dados42 + dadosDragon == botones.size()){
                         puntajeRonda = 0;
                         puntaje = 0;
                         ronda += 1;
                         estadoDelJuego = 1;
-                        resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
                     }else{
+                        seguirLanzando = 1;
                         estadoDelJuego = 0;
-                        resultadoPuntaje = "¡Sigue lanzando!";
                     }
                 }
             }
+        }
+
+        // Verifica si se presiono el dragon
+        if(dragon == 1){
+            puntajeRonda = 0;
+            puntaje = puntajeRonda;
+            textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
+        }
+
+        if(seguirLanzando == 1){
+            resultadoPuntaje = "¡Sigue lanzando!";
+        }else{
+            resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntajeRonda);
         }
 
         if(estadoDelJuego == 1){
@@ -565,7 +572,7 @@ public class GUI extends JFrame{
             inicializarBotones();
 
             if(ronda < 6 && puntaje < 29){
-                continuarReiniciar.setEnabled(true);
+                continuarReiniciar.setEnabled(true); // Solo habilita el boton para continuar a la siguiente ronda
             }else{
                 if(ronda < 6 && puntaje > 29){
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has ganado!";
@@ -573,10 +580,12 @@ public class GUI extends JFrame{
                     resultadoPuntaje = "Tu puntaje es: " + String.valueOf(puntaje) + " ¡Has perdido!";
                 }
                 puntaje = 0;
+                puntajeRonda = 0;
                 ronda = 1;
                 continuarReiniciar.setText("Jugar de nuevo");
                 continuarReiniciar.setEnabled(true);
             }
+            dragon = 0;
         }
 
         textoPuntaje.setText(resultadoPuntaje);
@@ -877,6 +886,7 @@ public class GUI extends JFrame{
                                 textoPuntaje.setText(null);
                                 continuarReiniciar.setEnabled(false);
                                 lanzar.setEnabled(true);
+                                mano.setVisible(true);
                             }else{
                                 System.exit(0);
                             }
@@ -940,6 +950,7 @@ public class GUI extends JFrame{
                     }
                 }else{
                     if(nombreAccion == "dragon") {
+                        dragon = 1;
                         nuevoEscucha = 0;
                         puntaje = 0;
                         escuchas();

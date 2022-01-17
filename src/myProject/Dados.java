@@ -19,8 +19,14 @@ public class Dados {
 
     // Asigna un numero aleatorio para tener una accion
     public void setNumAccion(){
+        int numeroAleatorio;
         Random aleatorio = new Random();
-        numeroAccion = aleatorio.nextInt(6)+1;
+        numeroAleatorio = aleatorio.nextInt(6)+1;
+        if(numeroAccion == numeroAleatorio){
+            setNumAccion();
+        }else{
+            numeroAccion = numeroAleatorio;
+        }
     }
 
     // Se asigna un numero manualmente para tener una accion
