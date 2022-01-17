@@ -732,17 +732,26 @@ public class GUI extends JFrame{
         public void mouseClicked(MouseEvent e) {
             String botonSecundario = "";
             botonSecundario = e.getComponent().getName();
-            modelDados.accionSuperHeroe(botonSecundario);
-            imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
-            mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
 
-            for(int boton=0; boton < botones.size(); boton++){
-                botones.get(boton).removeMouseListener(this);
-                botones.get(boton).addMouseListener(escucha);
+            // Si el nombre del dado es un superheroe, vuelve a repetir el lanzamiento
+            if(modelDados.getAccionDado(botonSecundario, "activos") == "superheroe"){
+                textoPuntaje.setText("No se puede girar otro superheroe");
+                nuevoEscucha = 2;
+                escuchas();
+            }else{
+                modelDados.accionSuperHeroe(botonSecundario);
+                imageDado = new ImageIcon(getClass().getResource("/recursos/" + modelDados.getAccionDado(botonSecundario, "activos") + ".png"));
+                mappingJButton("activos", botonSecundario).setIcon(new ImageIcon(imageDado.getImage().getScaledInstance(80,80, Image.SCALE_DEFAULT)));
+
+                for(int boton=0; boton < botones.size(); boton++){
+                    botones.get(boton).removeMouseListener(this);
+                    botones.get(boton).addMouseListener(escucha);
+                }
+                nuevoEscucha = 0;
+                escuchas();
+                rondas();
             }
-            nuevoEscucha = 0;
-            escuchas();
-            rondas();
+
         }
 
         @Override
@@ -912,14 +921,19 @@ public class GUI extends JFrame{
                 escuchas();
             }else{
                 if(nombreAccion == "superheroe") {
-                    for(int boton=0; boton < botones.size(); boton++){
-                        botones.get(boton).removeMouseListener(this);
-                        botones.get(boton).addMouseListener(superheroe);
-                    }
+                    // Si quedan dos dados superheroes, se lanza uno sin activar su accion y gana 0 puntos al final de la ronda
+                    if(botones.size() == 1 && modelDados.getAccionDado(botones.get(0).getName(), "activos") == "superheroe"){
+                        rondas();
+                    }else{
+                        for(int boton=0; boton < botones.size(); boton++){
+                            botones.get(boton).removeMouseListener(this);
+                            botones.get(boton).addMouseListener(superheroe);
+                        }
 
-                    textoPuntaje.setText("Accion superheroe activado");
-                    nuevoEscucha = 2;
-                    escuchas();
+                        textoPuntaje.setText("Accion superheroe activado");
+                        nuevoEscucha = 2;
+                        escuchas();
+                    }
                 }else{
                     if(nombreAccion == "dragon") {
                         nuevoEscucha = 0;
