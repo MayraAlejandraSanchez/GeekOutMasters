@@ -29,7 +29,7 @@ public class ModelDados {
     /**
      * @param nombreArray
      * Retorna el array ingresado
-     * @return auxiliar
+     * @return Arraylist
      */
     public ArrayList listaDados(String nombreArray){
         ArrayList<Dados> auxiliar;
@@ -73,6 +73,7 @@ public class ModelDados {
         for(int dado=0; dado < 10; dado++){
             dados.add(new Dados());
         }
+
         asignacionAcciones(); // Asigna todas las acciones del ArrayList dados
         setActivo(); // Establece estado activo a todos los dados
         dadosInactivos(); // Selecciona 3 dados inactivos y los borra del Arraylist dados
@@ -128,7 +129,7 @@ public class ModelDados {
     }
 
     /**
-     * Lista de acciones de los dados
+     * Asigna las acciones de cada dado dependiendo de su numero de accion
      */
     public void listaAcciones(){
         for(int numero=0; numero < dados.size(); numero++){
@@ -169,23 +170,6 @@ public class ModelDados {
     }
 
     /**
-     * Adiciona los dados al array listaDados
-     * @param array
-     * @param nombreDado
-     */
-    public void adicionarDado(String array, String nombreDado){
-        for(int dado=0; dado < dadosInactivos.size(); dado++){
-            nombreAObjeto.put(dadosInactivos.get(dado).getNombreDado(), dadosInactivos.get(dado));
-        }
-
-        listaDados(array).add(nombreAObjeto.get(nombreDado));
-        dadosInactivos.remove(nombreAObjeto.get(nombreDado));
-        identidadDado("activos");
-        identidadDado("inactivos");
-        nombreAObjeto.clear();
-    }
-
-    /**
      * Retorna la acción de un dado, dependiendo del array donde este
      * @param _nombreDado
      * @param nombreArray
@@ -208,7 +192,7 @@ public class ModelDados {
     }
 
     /**
-     * Busca el dado seleccionado por su numero y lo tira nuevamente
+     * Asigna una nueva accion al dado seleccionado (accion del mepple)
      * @param nombreDado
      */
     public void accionMepple(String nombreDado){
@@ -222,7 +206,7 @@ public class ModelDados {
     }
 
     /**
-     * Si presiona la accion del superheroe entonces al tocar otro dado, se gira a su cara contraria
+     * La cara del dado cambia a su cara opuesta (accion del superheroe)
      * @param nombreDado
      */
     public void accionSuperHeroe(String nombreDado){
@@ -263,7 +247,7 @@ public class ModelDados {
     }
 
     /**
-     * Al presionar la accion corazon se puede utilizar uno de los dados inactivos
+     * Se activa el dado seleccionado de la zona de inactivos (accion del corazon)
      * @param nombreDado
      */
     public void accionCorazon(String nombreDado){
@@ -282,7 +266,7 @@ public class ModelDados {
     }
 
     /**
-     * Al presionar la acción del cohete puede pasar uno de los dados activos a ser inactivo
+     * Convierte el dado seleccionado en inactivo (accion del cohete)
      * @param nombreDado
      */
     public void accionCohete(String nombreDado){

@@ -110,7 +110,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de boton "Ayuda"
          */
-
         ayuda = new JButton(" help ");
         ayuda.addActionListener(escucha);
         ayuda.setBackground(Color.green);
@@ -137,7 +136,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de boton "Salir"
          */
-
         salir = new JButton("Salir");
         salir.addActionListener(escucha);
         salir.setBackground(Color.red);
@@ -151,7 +149,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de boton "Explicación dados"
          */
-
         botonExplicacion = new JButton("Explicación dados");
         botonExplicacion.addActionListener(escucha);
         botonExplicacion.setBackground(Color.ORANGE);
@@ -181,7 +178,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de panel dados activos
          */
-
         panelDadosActivos = new JPanel();
         panelDadosActivos.setPreferredSize(new Dimension(300,300));
         panelDadosActivos.setBorder(BorderFactory.createTitledBorder("Dados Activos"));
@@ -198,7 +194,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de panel dados utilizados
          */
-
         panelDadosUtilizados = new JPanel();
         panelDadosUtilizados.setPreferredSize(new Dimension(300,300));
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados utilizados"));
@@ -214,7 +209,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de panel dados inactivos
          */
-
         panelDadosInactivos = new JPanel();
         panelDadosInactivos.setPreferredSize(new Dimension(300,300));
         panelDadosInactivos.setBorder(BorderFactory.createTitledBorder("Dados Inactivos"));
@@ -230,7 +224,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de panel puntaje
          */
-
         panelPuntaje = new JPanel();
         panelPuntaje.setLayout(new GridLayout(0,1));
         panelPuntaje.setPreferredSize(new Dimension(200,100));
@@ -264,7 +257,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de boton "tirar dados"
          */
-
         lanzar = new JButton("Tirar los dados");
         lanzar.addActionListener(escucha);
         lanzar.setBackground(Color.pink);
@@ -279,7 +271,6 @@ public class GUI extends JFrame{
         /**
          * Creacion de boton "Nuevo dado"
          */
-
         continuarReiniciar = new JButton();
         continuarReiniciar.setText("Continuar ronda");
         continuarReiniciar.addActionListener(escucha);
@@ -309,7 +300,9 @@ public class GUI extends JFrame{
         constraints.anchor=GridBagConstraints.CENTER;
         add(mensajesSalida,constraints);
 
-        // Creación de dados
+        /**
+         * Creación de los dados
+         */
         modelDados.lanzamientoDados();
         inicializarBotones();
     }
@@ -326,7 +319,7 @@ public class GUI extends JFrame{
     }
 
     /**
-     * Funciona para inicializar los botones activos e inactivos en sus zonas correspondientes
+     * Inicializa los botones activos e inactivos en sus zonas correspondientes
      */
     public void inicializarBotones(){
         // Inicializacion dados activos
@@ -356,7 +349,7 @@ public class GUI extends JFrame{
     }
 
     /**
-     * Funcion creada para actualizar los paneles al hacer uso de los botones
+     * Actualiza el panel correspondiente
      * @param nombrePanel
      */
     public void actualizarPanel(String nombrePanel){
@@ -385,7 +378,7 @@ public class GUI extends JFrame{
     }
 
     /**
-     * Renombra los botones cada que se elimine o agregue un elemento de algun ArrayList
+     * Renombra los botones cada vez que se elimine o agregue un nuevo boton a un Arraylist
      * @param nombreArray
      */
     public void renombrarBotones(String nombreArray){
@@ -874,7 +867,6 @@ public class GUI extends JFrame{
             if(e.getSource()==lanzar){
 
                 //Quita la mano que esta al inicio del juego
-
                 mano.setVisible(false);
                 lanzar.setEnabled(false);
 
@@ -885,10 +877,8 @@ public class GUI extends JFrame{
                 textoPuntaje.setText("¡Lanza un dado!");
 
 
-                /**
-                 * Aparecen los dados activos e inactivos
-                 */
 
+                // Aparecen los dados activos e inactivos
                 for(int dado=0; dado < botones.size(); dado++){
                     botones.get(dado).setVisible(true);
                 }
@@ -932,7 +922,6 @@ public class GUI extends JFrame{
          * Mouse clicked para los dados
          * @param e
          */
-
         @Override
         public void mouseClicked(MouseEvent e) {
 
