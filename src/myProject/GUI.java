@@ -106,7 +106,6 @@ public class GUI extends JFrame{
         constraints.fill=GridBagConstraints.CENTER;
         this.add(headerProject,constraints);
 
-
         /**
          * Creacion de boton "Ayuda"
          */
@@ -875,8 +874,6 @@ public class GUI extends JFrame{
                 continuarReiniciar.setText("Continuar ronda");
                 textoPuntajeTotal.setText("Puntaje total: " + String.valueOf(puntaje));
                 textoPuntaje.setText("¡Lanza un dado!");
-
-
 
                 // Aparecen los dados activos e inactivos
                 for(int dado=0; dado < botones.size(); dado++){
