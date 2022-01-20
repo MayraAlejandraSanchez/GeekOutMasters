@@ -192,7 +192,7 @@ public class GUI extends JFrame{
          * Creacion de panel dados utilizados
          */
         panelDadosUtilizados = new JPanel();
-        panelDadosUtilizados.setPreferredSize(new Dimension(300,300));
+        panelDadosUtilizados.setPreferredSize(new Dimension(300,350));
         panelDadosUtilizados.setBorder(BorderFactory.createTitledBorder("Dados utilizados"));
         panelDadosUtilizados.setBackground(Color.white);
 
