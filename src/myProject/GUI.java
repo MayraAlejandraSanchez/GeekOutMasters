@@ -21,11 +21,9 @@ public class GUI extends JFrame{
             "-> BRAYAN STIVEN SANCHEZ LEON\n" +
             "-> MAYRA ALEJANDRA SANCHEZ SALINAS";
 
-    public  static final String AYUDA="-> De los 10 dados que trae el juego se toman 3 y se colocan en el sector de \"Dados Inactivos\". Los otros 7\n" +
-            "dados se tiran y pasan a ser los \"Dados Activos\".\n" +
-            "-> Se van eligiendo los dados a utilizar según las habilidades de sus caras y se pasan al sector de \"Dados\n" +
-            "Utilizados\".\n" +
-            "-> Si como último dado activo queda un Dragón, se perderán todos los puntos acumulados.\n" +
+    public  static final String AYUDA="-> De los 10 dados que trae el juego se toman 3 y se colocan en el sector de \"Dados Inactivos\". Los otros 7 dados se tiran y pasan a ser los \"Dados Activos\"\n" +
+            "-> Se van eligiendo los dados a utilizar según las habilidades de sus caras y se pasan al sector de \"Dados Utilizados\"\n" +
+            "-> Si no hay más acciones disponibles y hay uno o más dragones activos pierde todos los puntos. Si usa este dado también perderá todos los puntos de la ronda y acumulados \n" +
             "-> Este juego lo jugará un único jugador y ganará si logra sumar 30 puntos en 5 rondas consecutivas de juego. ";
 
     private Header headerProject;
