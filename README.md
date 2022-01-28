@@ -1,1 +1,3 @@
-Proyecto del juego GeekT Out Masters
+Juego Geek Out Masters
+
+El objetivo de este juego es conseguir la mayor cantidad de puntos juntando dados cuya cara visible es la cara 42. Geek Out Masters no es solo suerte, también importa la estrategia ya que una vez que se lanzan los dados TODAS las caras deberán ejecutarse: los Meeples permiten relanzar los dados, las Naves Espaciales los eliminarán y los Superhéroes revelarán su lado oculto. Por suerte, los Corazones nos brindarán un dado extra, pero también están los Dragones, quienes causan pérdida. El juego está compuesto por: ¡10 dados de Geek Out!, 1 ayuda memoria, 1 Tarjeta de puntuación.
